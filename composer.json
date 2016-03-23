@@ -1,0 +1,36 @@
+{
+    "name": "rangka/quickbooks",
+    "homepage": "http://ashraff.my",
+    "description": "Quickbooks' PHP Client",
+    "keywords": ["quickbooks", "laravel"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Khairul Ashraff",
+            "homepage": "http://ashraff.my"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/rangka/quickbooks"
+    },
+    "require": {
+        "php": ">=5.5",
+        "guzzlehttp/guzzle": "~6.0",
+        "guzzlehttp/psr7": "~1.0",
+        "guzzlehttp/promises": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0|~5.0",
+    },
+    "autoload": {
+        "psr-4": {
+            "Rangka\\Quickbooks\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rangka\\Quickbooks\\Test\\": "tests/"
+        }
+    }
+}
