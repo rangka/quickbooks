@@ -3,6 +3,7 @@
 namespace Rangka\Quickbooks\Services;
 
 use Rangka\Quickbooks\Client;
+use Rangka\Quickbooks\Query;
 
 class Service extends Client {
     /**
@@ -26,5 +27,15 @@ class Service extends Client {
     */
     public function create($options) {
         return json_decode((string) parent::post(static::$name, $options)->getBody())->{ucwords(static::$name)};
+    }
+
+    /**
+    * Query quickbooks. Use Query to construct the query itself.
+    *
+    * @param \Rangka\Quickbooks\Query   $query      Query object
+    * @return void
+    */
+    public function query(Query $query) {
+        return json_decode((string) parent::get('query?query=' . rawurlencode($query->entity(static::$name)) . '&test=1')->getBody())->QueryResponse;
     }
 }
