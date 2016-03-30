@@ -71,6 +71,12 @@ class Client {
     *                               header - Authorization header (null if QuickBooks has not been connected)
     */
     protected function sign($method, $url, $params = []) {
+        // parse URL
+        $parsedURL = parse_url($url);
+
+        // reconstruct it with only what we need
+        $url = $parsedURL['scheme'] . '://' . $parsedURL['host'] . $parsedURL['path'];
+
         // set default parameters and sort it by key
         $params = array_merge([
             'oauth_consumer_key'     => $this->consumer_key,
@@ -82,7 +88,7 @@ class Client {
         ksort($params);
 
         // generate string to be signed
-        $string = $method . '&' . rawurlencode($url) . '&' . rawurlencode(http_build_query($params));
+        $string = $method . '&' . rawurlencode($url) . '&' . rawurlencode(http_build_query($params) .(isset($parsedURL['query']) ? '&' . $parsedURL['query'] : ''));
 
         // calculate signature
         $params['oauth_signature'] = base64_encode(hash_hmac('sha1', $string, rawurlencode($this->consumer_secret) . '&' . rawurlencode($this->oauth_token_secret), true));
