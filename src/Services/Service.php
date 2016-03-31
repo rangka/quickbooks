@@ -33,9 +33,18 @@ class Service extends Client {
     * Query quickbooks. Use Query to construct the query itself.
     *
     * @param \Rangka\Quickbooks\Query   $query      Query object
-    * @return void
+    * @return object
     */
-    public function query(Query $query) {
-        return json_decode((string) parent::get('query?query=' . rawurlencode($query->entity(static::$name)) . '&test=1')->getBody())->QueryResponse;
+    public function query() {
+        return (new Query($this))->entity(static::$name);
+    }
+
+    /**
+    * Get all items of this Entity.
+    * 
+    * @return object
+    */
+    public function all() {
+        return $this->query()->get();
     }
 }

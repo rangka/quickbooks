@@ -4,6 +4,13 @@ namespace Rangka\Quickbooks;
 
 class Query {
     /**
+     * Holds the client or any Services that utilizes it.
+     * 
+     * @var \Rangka\Quickbooks\Client
+     */
+    protected $client;
+
+    /**
      * Entity name
      * 
      * @var string
@@ -28,7 +35,8 @@ class Query {
     *
     * @return void
     */
-    public function __construct() {
+    public function __construct($client) {
+        $this->client = $client;
     }
 
     /**
@@ -114,5 +122,14 @@ class Query {
     */
     public function like($property, $constraint) {
         return $this->where($property, 'LIKE', $constraint);
+    }
+
+    /**
+    * Get data from Quickbooks
+    * 
+    * @return array
+    */
+    public function get() {
+        return json_decode((string) $this->client->get('query?query=' . rawurlencode($this))->getBody())->QueryResponse;
     }
 }
