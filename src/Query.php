@@ -130,6 +130,6 @@ class Query {
     * @return array
     */
     public function get() {
-        return json_decode((string) $this->client->get('query?query=' . rawurlencode($this))->getBody())->QueryResponse;
+        return $this->client->get('query?query=' . rawurlencode($this))->QueryResponse;
     }
 }

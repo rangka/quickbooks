@@ -17,16 +17,26 @@ class Service extends Client {
     * @return 
     */
     public function load($id) {
-        return parent::get(static::$name . '/' . $id);
+        return parent::get(static::$name . '/' . $id)->{ucwords(static::$name)};
     }
 
     /**
     * Create a single item
-    * @param array $options Item information
+    * @param array $data Item information
     * @return 
     */
-    public function create($options) {
-        return json_decode((string) parent::post(static::$name, $options)->getBody())->{ucwords(static::$name)};
+    public function create($data) {
+        return parent::post(static::$name, $data)->{ucwords(static::$name)};
+    }
+
+    /**
+    * Update an entity.
+    *
+    * @param array $data Item information.
+    * @return void
+    */
+    public function update($data) {
+        return parent::post(static::$name . '?operation=update', $data)->{ucwords(static::$name)};
     }
 
     /**
@@ -46,5 +56,15 @@ class Service extends Client {
     */
     public function all() {
         return $this->query()->get();
+    }
+
+    /**
+    * Get builder instance to construct entity data.
+    *
+    * @return \Rangka\Quickbooks\Builders\Builder
+    */
+    public function getBuilder() {
+        $class = '\Rangka\Quickbooks\Builders\\' . ucwords(static::$name);
+        return new $class($this);
     }
 }

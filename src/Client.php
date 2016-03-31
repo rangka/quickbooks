@@ -131,7 +131,7 @@ class Client {
             'oauth_token' => $this->oauth_token
         ]);
 
-        return $response = (new Guzzle([
+        $response = (new Guzzle([
             'base_uri' => $base_uri,
             'headers' => [
                 'Accept'        => 'application/json',
@@ -140,6 +140,8 @@ class Client {
             ],
             'json' => $body instanceof Builder ? $body->toArray() : $body
         ]))->request($method, $url);
+
+        return json_decode((string) $response->getBody());
     }
 
     /**
