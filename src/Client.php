@@ -17,47 +17,56 @@ class Client {
      *
      * * @var string
      */
-    protected $consumer_key;
+    protected static $consumer_key;
 
     /**
      * Holds QuickBook's Consume Secret. 
      *
      * * @var string
      */
-    protected $consumer_secret;
+    protected static $consumer_secret;
 
     /**
      * Hold's QuickBooks' OAuth Token.
      *
      * * @var string
      */
-    protected $oauth_token;
+    protected static $oauth_token;
 
     /**
      * Holds QuickBook's OAuth Token Secret. 
      *
      * * @var string
      */
-    protected $oauth_token_secret;
+    protected static $oauth_token_secret;
 
     /**
      * Holds QuickBook's Company ID (previously known as realm). 
      *
      * * @var string
      */
-    protected $company_id;
+    protected static $company_id;
 
     /**
-     * Sets consumer key and secret on initialization.
+     * Construct a new client.
      * 
      * @return void
      */
-    public function __construct($options) {
-        $this->consumer_key       = getenv('QUICKBOOKS_CONSUMER_KEY') ?: $options['consumer_key'];
-        $this->consumer_secret    = getenv('QUICKBOOKS_CONSUMER_SECRET') ?: $options['consumer_secret'];
-        $this->oauth_token        = isset($options['oauth_token']) ? $options['oauth_token'] : '';
-        $this->oauth_token_secret = isset($options['oauth_token_secret']) ? $options['oauth_token_secret'] : '';
-        $this->company_id         = isset($options['company_id']) ? $options['company_id'] : '';
+    public function __construct() {
+    }
+
+    /**
+    * Configure Client's tokens.
+    *
+    * @param    array   $params     Array of `oauth_token`, `oauth_token_secret` and `company_id`
+    * @return void
+    */
+    public static function configure($options) {
+        self::$consumer_key       = getenv('QUICKBOOKS_CONSUMER_KEY') ?: $options['consumer_key'];
+        self::$consumer_secret    = getenv('QUICKBOOKS_CONSUMER_SECRET') ?: $options['consumer_secret'];
+        self::$oauth_token        = isset($options['oauth_token']) ? $options['oauth_token'] : '';
+        self::$oauth_token_secret = isset($options['oauth_token_secret']) ? $options['oauth_token_secret'] : '';
+        self::$company_id         = isset($options['company_id']) ? $options['company_id'] : '';
     }
 
     /**
@@ -79,7 +88,7 @@ class Client {
 
         // set default parameters and sort it by key
         $params = array_merge([
-            'oauth_consumer_key'     => $this->consumer_key,
+            'oauth_consumer_key'     => self::$consumer_key,
             'oauth_nonce'            => substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10),
             'oauth_signature_method' => 'HMAC-SHA1',
             'oauth_timestamp'        => time(),
@@ -88,10 +97,10 @@ class Client {
         ksort($params);
 
         // generate string to be signed
-        $string = $method . '&' . rawurlencode($url) . '&' . rawurlencode(http_build_query($params) .(isset($parsedURL['query']) ? '&' . $parsedURL['query'] : ''));
+        $string = $method . '&' . rawurlencode($url) . '&' . rawurlencode(http_build_query($params) . (isset($parsedURL['query']) ? '&' . $parsedURL['query'] : ''));
 
         // calculate signature
-        $params['oauth_signature'] = base64_encode(hash_hmac('sha1', $string, rawurlencode($this->consumer_secret) . '&' . rawurlencode($this->oauth_token_secret), true));
+        $params['oauth_signature'] = base64_encode(hash_hmac('sha1', $string, rawurlencode(self::$consumer_secret) . '&' . rawurlencode(self::$oauth_token_secret), true));
 
         // generate auth header if oauth_token is present but without verifier (actual API request and not authorization process)
         $header = $signed_url = '';
@@ -125,10 +134,10 @@ class Client {
     */
     public function request($method, $url, $body = []) {
         $url      = trim($url, '/');
-        $base_uri = self::URL_API_BASE . '/' . $this->company_id . '/';
+        $base_uri = self::URL_API_BASE . '/' . self::$company_id . '/';
         $full_url = $base_uri . $url;
         $signed   = $this->sign($method, $full_url, [
-            'oauth_token' => $this->oauth_token
+            'oauth_token' => self::$oauth_token
         ]);
 
         $response = (new Guzzle([

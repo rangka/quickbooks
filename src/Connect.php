@@ -27,6 +27,13 @@ class Connect extends Client {
     const URL_CONNECT = 'https://appcenter.intuit.com/Connect/Begin';
 
     /**
+     * Holds callback URL for redirection when user has authorized.
+     * 
+     * @var string
+     */
+    protected $callback_url;
+
+    /**
     * Constructor
     * @return void
     */
@@ -42,7 +49,7 @@ class Connect extends Client {
     * @return void
     */
     public function requestAccess() {
-        if($this->oauth_token)
+        if(self::$oauth_token)
             throw new \Exception('Quickbooks has been connected. Please disconnect before proceeding.');
         
         $res = $this->request('GET', self::URL_REQUEST_TOKEN, [
