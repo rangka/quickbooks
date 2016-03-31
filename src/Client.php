@@ -62,8 +62,8 @@ class Client {
     * @return void
     */
     public static function configure($options) {
-        self::$consumer_key       = getenv('QUICKBOOKS_CONSUMER_KEY') ?: $options['consumer_key'];
-        self::$consumer_secret    = getenv('QUICKBOOKS_CONSUMER_SECRET') ?: $options['consumer_secret'];
+        self::$consumer_key       = getenv('QUICKBOOKS_CONSUMER_KEY') ?: (isset($options['consumer_key']) ? $options['consumer_key'] : '');
+        self::$consumer_secret    = getenv('QUICKBOOKS_CONSUMER_SECRET') ?: (isset($options['consumer_secret']) ? $options['consumer_secret'] : '');
         self::$oauth_token        = isset($options['oauth_token']) ? $options['oauth_token'] : '';
         self::$oauth_token_secret = isset($options['oauth_token_secret']) ? $options['oauth_token_secret'] : '';
         self::$company_id         = isset($options['company_id']) ? $options['company_id'] : '';
