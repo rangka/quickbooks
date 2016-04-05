@@ -27,6 +27,13 @@ class Connect extends Client {
     const URL_CONNECT = 'https://appcenter.intuit.com/Connect/Begin';
 
     /**
+     * URL to reconnect OAuth (refresh token)
+     *
+     * * @var string
+     */
+    const URL_RECONNECT = 'https://appcenter.intuit.com/api/v1/connection/reconnect';
+
+    /**
      * Holds callback URL for redirection when user has authorized.
      * 
      * @var string
@@ -40,13 +47,14 @@ class Connect extends Client {
     public function __construct($options = []) {
         parent::__construct($options);
 
-        $this->callback_url = $options['callback_url'];
+        if (isset($options['callback_url']))
+            $this->callback_url = $options['callback_url'];
     }
 
     /**
     * Get token from QuickBooks.
     * 
-    * @return void
+    * @return array
     */
     public function requestAccess() {
         if(self::$oauth_token)
@@ -67,19 +75,50 @@ class Connect extends Client {
     }
 
     /**
-    * Connecto to Quickbooks and save OAuth token for future usage.
+    * Reconnect to Quickbooks to get a fresh token.
     * 
-    * @return void
+    * @return array
+    */
+    public function reconnect() {
+        $signed = $this->sign('GET', self::URL_RECONNECT, [
+            'oauth_token' => self::$oauth_token
+        ]);
+
+        $response = (new Guzzle([
+            'headers' => [
+                'Accept'        => 'application/json',
+                'Content-Type'  => 'application/json',
+                'Authorization' => $signed['header']
+            ]
+        ]))->request('GET', self::URL_RECONNECT);
+
+        // retrieve the value
+        $response = json_decode((string) $response->getBody(), true);
+
+        if ($response['ErrorMessage'])
+            throw new \Exception($response['ErrorMessage'], $response['ErrorCode']);
+
+        return [
+            'oauth_token_secret' => $response['OAuthTokenSecret'],
+            'oauth_token'        => $response['OAuthToken'],
+            'oauth_expiry'       => time() + (86400 * 180)
+        ];
+    }
+
+    /**
+    * Connect to Quickbooks and save OAuth token for future usage.
+    * 
+    * @return array
     */
     public function connect($params) {
-        $res = $this->request('GET', self::URL_ACCESS_TOKEN, [
+        $response = $this->request('GET', self::URL_ACCESS_TOKEN, [
             'oauth_token'    => $params['oauth_token'], 
             'oauth_verifier' => $params['oauth_verifier']
         ]);
 
         // retrieve the value
         $values = [];
-        parse_str(((string) $res->getBody()), $values);
+        parse_str(((string) $response->getBody()), $values);
 
         return [
             'oauth_token_secret' => $values['oauth_token_secret'],
@@ -92,7 +131,7 @@ class Connect extends Client {
     /**
     * Request from Quickbooks.
     * 
-    * @return 
+    * @return array
     */
     public function request($method, $url, $params = []) {
         $signed = $this->sign('GET', $url, $params);

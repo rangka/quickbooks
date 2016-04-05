@@ -14,7 +14,7 @@ class Invoice extends Service {
 
     /**
     * Get an instance of Item Builder to build Invoice's Items
-    * @return 
+    * @return \Rangka\Quickbooks\Builders\InvoiceItem
     */
     public function getItemBuilder() {
         return new InvoiceItem;

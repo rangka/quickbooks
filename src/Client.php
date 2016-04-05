@@ -8,42 +8,42 @@ class Client {
     /**
      * API Base Url
      *
-     * * @var string
+     * @var string
      */
     const URL_API_BASE = 'https://sandbox-quickbooks.api.intuit.com/v3/company';
 
     /**
      * Hold's QuickBooks' Consumer Key.
      *
-     * * @var string
+     * @var string
      */
     protected static $consumer_key;
 
     /**
      * Holds QuickBook's Consume Secret. 
      *
-     * * @var string
+     * @var string
      */
     protected static $consumer_secret;
 
     /**
      * Hold's QuickBooks' OAuth Token.
      *
-     * * @var string
+     * @var string
      */
     protected static $oauth_token;
 
     /**
      * Holds QuickBook's OAuth Token Secret. 
      *
-     * * @var string
+     * @var string
      */
     protected static $oauth_token_secret;
 
     /**
      * Holds QuickBook's Company ID (previously known as realm). 
      *
-     * * @var string
+     * @var string
      */
     protected static $company_id;
 
