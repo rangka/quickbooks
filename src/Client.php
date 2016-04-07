@@ -132,25 +132,34 @@ class Client {
     * 
     * @return 
     */
-    public function request($method, $url, $body = []) {
+    public function request($method, $url, $body = [], $headers = []) {
         $url      = trim($url, '/');
         $base_uri = self::URL_API_BASE . '/' . self::$company_id . '/';
         $full_url = $base_uri . $url;
         $signed   = $this->sign($method, $full_url, [
             'oauth_token' => self::$oauth_token
         ]);
+        $headers  = array_merge([
+            'Accept'       => 'application/json',
+            'Content-Type' => 'application/json'
+        ], $headers);
 
         $response = (new Guzzle([
             'base_uri' => $base_uri,
             'headers' => [
-                'Accept'        => 'application/json',
-                'Content-Type'  => 'application/json',
+                'Accept'        => $headers['Accept'],
+                'Content-Type'  => $headers['Content-Type'],
                 'Authorization' => $signed['header']
             ],
             'json' => $body instanceof Builder ? $body->toArray() : $body
         ]))->request($method, $url);
 
-        return json_decode((string) $response->getBody());
+        if ($headers['Accept'] == 'application/json') {
+            return json_decode((string) $response->getBody());
+        }
+        else {
+            return $response->getBody();
+        }
     }
 
     /**
