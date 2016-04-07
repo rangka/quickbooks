@@ -13,10 +13,22 @@ class Invoice extends Service {
     protected static $name = 'invoice';
 
     /**
-    * Get an instance of Item Builder to build Invoice's Items
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
-    */
+     * Get an instance of Item Builder to build Invoice's Items
+     * @return \Rangka\Quickbooks\Builders\InvoiceItem
+     */
     public function getItemBuilder() {
         return new InvoiceItem;
+    }
+
+    /**
+     * Download Invoice as PDF
+     *
+     * @param string $id Invoice ID.
+     * @return \GuzzleHttp\Psr7\Stream
+     */
+    public function downloadPdf($id) {
+        return $this->request('GET', static::$name . '/' . $id . '/pdf', [], [
+            'Accept' => 'application/pdf'
+        ]);
     }
 }
