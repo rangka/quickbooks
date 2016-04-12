@@ -130,6 +130,25 @@ class Query {
     * @return array
     */
     public function get() {
-        return $this->client->get('query?query=' . rawurlencode($this))->QueryResponse;
+        $data = $this->client->get('query?query=' . rawurlencode($this));
+
+        // If Query syntax is incorrect, it will return a 200 with Fault.
+        // Lets make that an Exception instead.
+        if (property_exists($data, 'Fault')) {
+            throw new \Exception('[' . $data->Fault->Error[0]->code . ' ' . $data->Fault->Error[0]->Message . '] ' . $data->Fault->Error[0]->Detail);
+        }
+
+        $data = $data->QueryResponse;
+
+        if (!property_exists($data, 'totalCount')) {
+            $return = new \stdClass;
+            $return->{ucwords($this->entity)} = [];
+            $return->maxResults = 0;
+            $return->totalCount = 0;
+
+            return $return;
+        }
+
+        return $data;
     }
 }
