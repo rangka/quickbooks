@@ -16,7 +16,7 @@ class Invoice extends Service {
      * @return \GuzzleHttp\Psr7\Stream
      */
     public function downloadPdf($id) {
-        return $this->request('GET', static::$name . '/' . $id . '/pdf', [], [
+        return $this->request('GET', $this->getResourceName() . '/' . $id . '/pdf', [], [
             'Accept' => 'application/pdf'
         ]);
     }
