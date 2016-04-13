@@ -2,21 +2,11 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-use Rangka\Quickbooks;
-use Rangka\Quickbooks\Services;
+use Rangka\Quickbooks\Builders\Traits\HasCustomer;
+use Rangka\Quickbooks\Builders\Traits\Itemizable;
 
 class Invoice extends Builder {
-    /**
-    * Set Customer's ID
-    *
-    * @param integer $id Customer's Quickbooks ID
-    * @return \Rangka\Quickbooks\Builders\Invoice
-    */
-    public function setCustomer($id) {
-        $this->data['CustomerRef']['value'] = $id;
-
-        return $this;
-    }
+    use HasCustomer, Itemizable;
 
     /**
     * Set Tax Code Reference ID
@@ -26,18 +16,6 @@ class Invoice extends Builder {
     */
     public function setTaxCodeRef($code) {
         $this->data['TxnTaxDetail']['TxnTaxCodeRef']['value'] = $code;
-
-        return $this;
-    }
-
-    /**
-    * Add an invoice item. Items must be built with InvoiceItem.
-    *
-    * @param \Rangka\Quickbooks\Builders\InvoiceItem $item Invoice Item object.
-    * @return \Rangka\Quickbooks\Builders\Invoice
-    */
-    public function addItem(InvoiceItem $item) {
-        $this->data['Line'][] = $item->toArray();
 
         return $this;
     }

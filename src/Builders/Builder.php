@@ -2,9 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-use Rangka\Quickbooks;
-use Rangka\Quickbooks\Services;
-
 abstract class Builder implements BuilderContract {
     /**
      * Carries the entire data.
@@ -96,5 +93,26 @@ abstract class Builder implements BuilderContract {
     */
     public function toArray() {
         return $this->data;
+    }
+
+    /**
+     * Get Entity Name
+     * 
+     * @return string
+     */
+    public function getEntityName()
+    {
+        $fullClass = get_called_class();
+        $exploded  = explode('\\', $fullClass);
+        return end($exploded);
+    }
+
+    /**
+     * Get the name of this service.
+     * @return string
+     */
+    public function getResourceName()
+    {
+        return static::$name ?: strtolower($this->getEntityName());
     }
 }

@@ -1,11 +1,8 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace Rangka\Quickbooks\Builders\Items;
 
-use Rangka\Quickbooks;
-use Rangka\Quickbooks\Services;
-
-class InvoiceItem extends Builder {
+class Invoice extends Item {
     /**
     * Set Item's name. This is not needed if name is set through setItem()
     *

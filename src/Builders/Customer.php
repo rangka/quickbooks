@@ -2,8 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-use Rangka\Quickbooks;
-use Rangka\Quickbooks\Services;
 use Rangka\Quickbooks\Builders\Address;
 
 class Customer extends Builder {

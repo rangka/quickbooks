@@ -2,9 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-use Rangka\Quickbooks;
-use Rangka\Quickbooks\Services;
-
 class Item extends Builder {
     /**
     * Set item's type. Either `Inventory`, `NonInventory` or `Service`.
