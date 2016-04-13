@@ -29,6 +29,18 @@ class Payment extends Builder {
     }
 
     /**
+     * Set payment method by ID.
+     *
+     * @param  string $id Payment Method ID.
+     * @return void
+     */
+    public function setPaymentMethod($id) {
+        $this->data['PaymentMethodRef']['value'] = $id;
+
+        return $this;
+    }
+
+    /**
      * Alias to setTxnDate()
      *
      * @param  string $date Date in format YYYY-MM-DD (2016-12-30)
