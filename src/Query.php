@@ -140,7 +140,7 @@ class Query {
 
         $data = $data->QueryResponse;
 
-        if (!property_exists($data, 'totalCount')) {
+        if (!property_exists($data, ucwords($this->entity))) {
             $return = new \stdClass;
             $return->{ucwords($this->entity)} = [];
             $return->maxResults = 0;
