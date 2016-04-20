@@ -90,14 +90,17 @@ class Invoice extends Item {
     /**
     * Set this item to be taxable.
     *
-    * @param boolean $taxable Set to TRUE to make it taxable or FALSE otherwise. TRUE by default.
+    * @param  boolean   $taxable    Set to TRUE to make it taxable or FALSE otherwise. TRUE by default.
+    * @param  id        $id         TaxCode ID.
     * @return \Rangka\Quickbooks\Builders\InvoiceItem
     */
-    public function isTaxable($taxable = true) {
-        if ($taxable)
-            $this->data[$this->data['DetailType']]['TaxCodeRef']['value'] = 'TAX';
-        else if (isset($this->data[$this->data['DetailType']]['TaxCodeRef']))
+    public function isTaxable($taxable = true, $id = 'TAX') {
+        if ($taxable) {
+            $this->data[$this->data['DetailType']]['TaxCodeRef']['value'] = $id;
+        }
+        else if (isset($this->data[$this->data['DetailType']]['TaxCodeRef'])) {
             unset($this->data[$this->data['DetailType']]['TaxCodeRef']);
+        }
 
         return $this;
     }
