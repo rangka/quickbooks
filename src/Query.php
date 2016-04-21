@@ -31,28 +31,28 @@ class Query {
     protected $where;
 
     /**
-    * Consstruct a new query.
-    *
-    * @return void
-    */
+     * Consstruct a new query.
+     *
+     * @return void
+     */
     public function __construct($client) {
         $this->client = $client;
     }
 
     /**
-    * Dumps query statment once casted to string.
-    * 
-    * @return string
-    */
+     * Dumps query statment once casted to string.
+     * 
+     * @return string
+     */
     public function __toString() {
         return $this->generate();
     }
 
     /**
-    * Generate full SQL statement.
-    * 
-    * @return string
-    */
+     * Generate full SQL statement.
+     * 
+     * @return string
+     */
     public function generate() {
         $select = $this->properties ? implode(', ', $this->properties) : '*';
 
@@ -73,11 +73,11 @@ class Query {
     }
 
     /**
-    * Set entity to request.
-    *
-    * @param    string                      $entity     Entity name.
-    * @return   \Rangka\Quickbooks\Query
-    */
+     * Set entity to request.
+     *
+     * @param    string                      $entity     Entity name.
+     * @return   \Rangka\Quickbooks\Query
+     */
     public function entity($entity) {
         $this->entity = $entity;
 
@@ -85,11 +85,11 @@ class Query {
     }
 
     /**
-    * Set properties to retrieve
-    *
-    * @param    array[string]               $properties     Array of properties.
-    * @return   \Rangka\Quickbooks\Query
-    */
+     * Set properties to retrieve
+     *
+     * @param    array[string]               $properties     Array of properties.
+     * @return   \Rangka\Quickbooks\Query
+     */
     public function select($properties) {
         if (!is_array($properties))
             $properties = [$properties];
@@ -100,13 +100,13 @@ class Query {
     }
 
     /**
-    * Set a where constraint.
-    *
-    * @param    string                      $property       Property name.
-    * @param    string                      $operator       Operator for constraining. Either `<`, `<=`, `>`, `>=`, `=`, `!=`, `LIKE`
-    * @param    string                      $constraint     Value of constraint
-    * @return   \Rangka\Quickbooks\Query
-    */
+     * Set a where constraint.
+     *
+     * @param    string                      $property       Property name.
+     * @param    string                      $operator       Operator for constraining. Either `<`, `<=`, `>`, `>=`, `=`, `!=`, `LIKE`
+     * @param    string                      $constraint     Value of constraint
+     * @return   \Rangka\Quickbooks\Query
+     */
     public function where($property, $operator, $constraint) {
         $this->where[] = $property . " " . $operator . " '" . $constraint . "'";
 
@@ -114,21 +114,35 @@ class Query {
     }
 
     /**
-    * Set a LIKE constraint.
-    *
-    * @param string $property Property name.
-    * @param string $constraint Constraint value.
-    * @return \Rangka\Quickbooks\Query
-    */
+     * Set a an IN constraint.
+     *
+     * @param    string    $property       Property name.
+     * @param    array     $array          Array of IDs. 
+     * @return   void
+     */
+    public function in($property, $ids)
+    {
+        $this->where[] = $property . ' IN (\'' . implode('\',\'', $ids) . '\')';
+
+        return $this;
+    }
+
+    /**
+     * Set a LIKE constraint.
+     *
+     * @param string $property Property name.
+     * @param string $constraint Constraint value.
+     * @return \Rangka\Quickbooks\Query
+     */
     public function like($property, $constraint) {
         return $this->where($property, 'LIKE', $constraint);
     }
 
     /**
-    * Get data from Quickbooks
-    * 
-    * @return array
-    */
+     * Get data from Quickbooks
+     * 
+     * @return array
+     */
     public function get() {
         $data = $this->client->get('query?query=' . rawurlencode($this));
 
@@ -140,9 +154,9 @@ class Query {
 
         $data = $data->QueryResponse;
 
-        if (!property_exists($data, ucwords($this->entity))) {
+        if (!property_exists($data, $this->entity)) {
             $return = new \stdClass;
-            $return->{ucwords($this->entity)} = [];
+            $return->{$this->entity} = [];
             $return->maxResults = 0;
             $return->totalCount = 0;
 

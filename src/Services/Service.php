@@ -46,7 +46,7 @@ class Service extends Client {
     * @return object
     */
     public function query() {
-        return (new Query($this))->entity($this->getResourceName());
+        return (new Query($this))->entity($this->getEntityName());
     }
 
     /**
