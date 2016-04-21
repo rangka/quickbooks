@@ -88,9 +88,11 @@ class Invoice extends Builder {
     {
         $this->data['TxnTaxDetail']['TaxLine'] = [
             [
-                'DetailType'       => 'TaxLineDetail',
-                'TaxLineDetail'    => [
-                    'TaxRateRef'       => $id,
+                'DetailType' => 'TaxLineDetail',
+                'TaxLineDetail' => [
+                    'TaxRateRef' => [
+                        'value' => $id
+                    ],
                     'NetAmountTaxable' => $amount
                 ]
             ]
