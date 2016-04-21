@@ -51,4 +51,51 @@ class Invoice extends Builder {
 
         return $this;
     }
+
+    /**
+     * Set Billing Address by ID.
+     *
+     * @param  string $id Address ID
+     * @return \Rangka\Quickbooks\Builders\Invoice
+     */
+    public function setBillingAddressId($id) {
+        $this->data['BillAddr']['Id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Set Shipping Address by ID.
+     * 
+     * @param  string $id Address ID
+     * @return \Rangka\Quickbooks\Builders\Invoice
+     */
+    public function setShippingAddressId($id) {
+        $this->data['ShipAddr']['Id'] = $id;
+
+        return $this;
+    }
+
+    /**
+     * Set Amount to be Taxed. Only for updates. 
+     * Creation of invoice will calculate this automatically.
+     *
+     * @param  float    $amount Amount to be taxed.
+     * @param  string   $id     TaxRateRef ID.
+     * @return \Rangka\Quickbooks\Builders\Invoice
+     */
+    public function addTaxableAmount($amount, $id)
+    {
+        $this->data['TxnTaxDetail']['TaxLine'] = [
+            [
+                'DetailType'       => 'TaxLineDetail',
+                'TaxLineDetail'    => [
+                    'TaxRateRef'       => $id,
+                    'NetAmountTaxable' => $amount
+                ]
+            ]
+        ];
+
+        return $this;
+    }
 }
