@@ -133,7 +133,7 @@ class Connect extends Client {
     * 
     * @return array
     */
-    public function request($method, $url, $params = []) {
+    public function request($method, $url, $params = [], $headers = []) {
         $signed = $this->sign('GET', $url, $params);
 
         return $response = (new Guzzle())->request($method, $signed['url']);
