@@ -6,11 +6,18 @@ use Rangka\Quickbooks\Builders\Builder;
 
 class Client {
     /**
-     * API Base Url
+     * API Base Url (Sandbox)
      *
      * @var string
      */
-    const URL_API_BASE = 'https://sandbox-quickbooks.api.intuit.com/v3/company';
+    const URL_API_BASE_SANDBOX = 'https://sandbox-quickbooks.api.intuit.com/v3/company';
+
+    /**
+     * API Base Url (Live)
+     *
+     * @var string
+     */
+    const URL_API_BASE_LIVE = 'https://quickbooks.api.intuit.com/v3/company';
 
     /**
      * Hold's QuickBooks' Consumer Key.
@@ -48,6 +55,13 @@ class Client {
     protected static $company_id;
 
     /**
+     * Flag for sandbox mode. Defaults to FALSE.
+     *
+     * @var boolean
+     */
+    protected static $sandbox;
+
+    /**
      * Construct a new client.
      * 
      * @return void
@@ -64,6 +78,7 @@ class Client {
     public static function configure($options) {
         self::$consumer_key       = getenv('QUICKBOOKS_CONSUMER_KEY') ?: (isset($options['consumer_key']) ? $options['consumer_key'] : '');
         self::$consumer_secret    = getenv('QUICKBOOKS_CONSUMER_SECRET') ?: (isset($options['consumer_secret']) ? $options['consumer_secret'] : '');
+        self::$sandbox            = (getenv('QUICKBOOKS_ENV') ?: (isset($options['sandbox']) ? $options['sandbox'] : 'prod')) == 'sandbox';
         self::$oauth_token        = isset($options['oauth_token']) ? $options['oauth_token'] : '';
         self::$oauth_token_secret = isset($options['oauth_token_secret']) ? $options['oauth_token_secret'] : '';
         self::$company_id         = isset($options['company_id']) ? $options['company_id'] : '';
@@ -134,7 +149,7 @@ class Client {
     */
     public function request($method, $url, $body = [], $headers = []) {
         $url      = trim($url, '/');
-        $base_uri = self::URL_API_BASE . '/' . self::$company_id . '/';
+        $base_uri = $this->getBaseURL() . '/' . self::$company_id . '/';
         $full_url = $base_uri . $url;
         $signed   = $this->sign($method, $full_url, [
             'oauth_token' => self::$oauth_token
@@ -178,5 +193,15 @@ class Client {
     */
     public function post($url, $body = []) {
         return $this->request('POST', $url, $body);
+    }
+
+    /**
+     * Get base URL. This will switch between Sandbox and Live depending on config.
+     * 
+     * @return string
+     */
+    private function getBaseURL()
+    {
+        return self::$sandbox ? self::URL_API_BASE_SANDBOX : self::URL_API_BASE_LIVE;
     }
 }
