@@ -76,9 +76,9 @@ class Client {
     * @return void
     */
     public static function configure($options) {
-        self::$consumer_key       = getenv('QUICKBOOKS_CONSUMER_KEY') ?: (isset($options['consumer_key']) ? $options['consumer_key'] : '');
-        self::$consumer_secret    = getenv('QUICKBOOKS_CONSUMER_SECRET') ?: (isset($options['consumer_secret']) ? $options['consumer_secret'] : '');
-        self::$sandbox            = (getenv('QUICKBOOKS_ENV') ?: (isset($options['sandbox']) ? $options['sandbox'] : 'prod')) == 'sandbox';
+        self::$consumer_key       = isset($options['consumer_key']) ? $options['consumer_key'] : getenv('QUICKBOOKS_CONSUMER_KEY');
+        self::$consumer_secret    = isset($options['consumer_secret']) ? $options['consumer_secret'] : getenv('QUICKBOOKS_CONSUMER_SECRET');
+        self::$sandbox            = (isset($options['sandbox']) ? $options['sandbox'] : getenv('QUICKBOOKS_ENV')) == 'sandbox';
         self::$oauth_token        = isset($options['oauth_token']) ? $options['oauth_token'] : '';
         self::$oauth_token_secret = isset($options['oauth_token_secret']) ? $options['oauth_token_secret'] : '';
         self::$company_id         = isset($options['company_id']) ? $options['company_id'] : '';
