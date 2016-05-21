@@ -31,6 +31,20 @@ class Query {
     protected $where;
 
     /**
+     * Pagination
+     * 
+     * @var array
+     */
+    protected $paginate;
+
+    /**
+     * Ordering.
+     * 
+     * @var array
+     */
+    protected $orderBy;
+
+    /**
      * Consstruct a new query.
      *
      * @return void
@@ -69,7 +83,20 @@ class Query {
             $sql[] = implode(' AND ', $this->where);
         }
 
-        return implode(' ', $sql);
+        if ($this->orderBy) {
+            $sql[] = 'ORDERBY';
+            $sql[] = $this->orderBy['property'];
+            $sql[] = $this->orderBy['order'];
+        }
+
+        if ($this->paginate) {
+            $sql[] = 'STARTPOSITION';
+            $sql[] = $this->paginate['start'];
+            $sql[] = 'MAXRESULTS';
+            $sql[] = $this->paginate['length'];
+        }
+
+        return implode(' ', array_filter($sql));
     }
 
     /**
@@ -136,6 +163,40 @@ class Query {
      */
     public function like($property, $constraint) {
         return $this->where($property, 'LIKE', $constraint);
+    }
+
+    /**
+     * Paginate result.
+     *
+     * @param  integer $start Start position.
+     * @param  integer $length Number of entities to fetch.
+     * @return void
+     */
+    public function paginate($start, $length)
+    {
+        $this->paginate = [
+            'start'  => $start,
+            'length' => $length
+        ];
+
+        return $this;
+    }
+
+    /**
+     * Sort results.
+     *
+     * @param  string $property Property to be used for sorting.
+     * @param  string $order    Ordering. Either "ASC" or "DESC". Optional.
+     * @return void
+     */
+    public function orderBy($property, $order = null)
+    {
+        $this->orderBy = [
+            'property' => $property,
+            'order'    => $order
+        ];
+
+        return $this;
     }
 
     /**
