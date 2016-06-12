@@ -1,14 +1,14 @@
 {
     "name": "rangka/quickbooks",
-    "homepage": "http://ashraff.my",
+    "homepage": "http://rangka.my/quickbooks",
     "description": "Quickbooks' PHP Client",
-    "keywords": ["quickbooks", "laravel"],
+    "keywords": ["quickbooks", "php"],
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Khairul Ashraff",
-            "homepage": "http://ashraff.my"
+            "homepage": "http://rangka.my/quickbooks"
         }
     ],
     "support": {
