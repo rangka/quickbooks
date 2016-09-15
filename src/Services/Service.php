@@ -13,6 +13,12 @@ class Service extends Client {
     protected static $name;
 
     /**
+     * Resource name of this service. Must correspond to actual objecet type in Quickbooks and in all lowercase.
+     * @var string
+     */
+    protected static $resource_name;
+
+    /**
     * Load a single item
     * @return 
     */
@@ -73,8 +79,11 @@ class Service extends Client {
      * 
      * @return string
      */
-    public function getEntityName()
-    {
+    public function getEntityName() {
+        if (static::$name) {
+            return static::$name;
+        }
+
         $fullClass = get_called_class();
         $exploded  = explode('\\', $fullClass);
         return end($exploded);
@@ -84,8 +93,7 @@ class Service extends Client {
      * Get the name of this service.
      * @return string
      */
-    public function getResourceName()
-    {
+    public function getResourceName() {
         return static::$name ?: strtolower($this->getEntityName());
     }
 }

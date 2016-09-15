@@ -10,5 +10,11 @@ class QBClass extends Service {
      * @var string
      */
     protected static $name = 'class';
+
+    /**
+     * Resource name of this service. Must correspond to actual objecet type in Quickbooks and in all lowercase.
+     * @var string
+     */
+    protected static $resource_name = 'Class';
     
 }
