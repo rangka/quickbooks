@@ -78,3 +78,20 @@ $result = $connector->reconnect();
 
 # Disconnect 
 Simply remove all of the Configuration values from your storage. 
+
+# Usage
+#### Read
+To read a resource, initialize its service and call `load($id)` on it. Take note not all Service have read capability. Check QB's documentation to know which one does and which one does not; https://developer.intuit.com/v2/apiexplorer?apiname=V3QBO .
+```
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$response = $service->load($id);
+```
+
+Response will be in `stdClass` object.
+
+#### Delete
+Deleting a resource is basically the same as loading except calling on `delete($id)` instead.
+```
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$response = $service->delete($id);
+```
