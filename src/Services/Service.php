@@ -44,6 +44,19 @@ class Service extends Client {
     public function update($data) {
         return parent::post($this->getResourceName() . '?operation=update', $data)->{$this->getEntityName()};
     }
+    
+    /**
+    * Delete an entity.
+    *
+    * @param array $data Item information.
+    * @return void
+    */
+    public function delete($data) {
+        return parent::post($this->getResourceName() . '?operation=delete', [
+            'Id'        => $data,
+            'SyncToken' => 0,
+        ])->{$this->getEntityName()};
+    }
 
     /**
     * Query quickbooks. Use Query to construct the query itself.
