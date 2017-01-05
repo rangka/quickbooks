@@ -141,6 +141,30 @@ class Query {
     }
 
     /**
+     * Set a where constraint for a TRUE boolean.
+     *
+     * @param    string                      $property       Property name.
+     * @return   \Rangka\Quickbooks\Query
+     */
+    public function whereTrue($property) {
+        $this->where[] = $property . " = true";
+
+        return $this;
+    }
+
+    /**
+     * Set a where constraint for a TRUE boolean.
+     *
+     * @param    string                      $property       Property name.
+     * @return   \Rangka\Quickbooks\Query
+     */
+    public function whereFalse($property) {
+        $this->where[] = $property . " = false";
+
+        return $this;
+    }
+
+    /**
      * Set a an IN constraint.
      *
      * @param    string    $property       Property name.
