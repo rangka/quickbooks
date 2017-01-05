@@ -153,7 +153,7 @@ class Query {
     }
 
     /**
-     * Set a where constraint for a TRUE boolean.
+     * Set a where constraint for a FALSE boolean.
      *
      * @param    string                      $property       Property name.
      * @return   \Rangka\Quickbooks\Query
