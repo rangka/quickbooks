@@ -95,3 +95,66 @@ Deleting a resource is basically the same as loading except calling on `delete($
 $service = new \Rangka\Quickbooks\Services\Invoice;
 $response = $service->delete($id);
 ```
+
+### Create
+In order to create, you will need to obtain a Builder for the entity you wish for. You can get the Builder instance from its Service. Example given is for Invoice;
+```
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$builder = $service->getBuilder();
+```
+
+Any property can be added by calling `set{$propertyName}`. For example setting the amount;
+```
+$builder->setAmount(100);
+```
+
+Nested value have two ways to be added. Either straight up arrays via its top-level property or using various helper methods within the Builder.
+
+Straight up array;
+```
+$builder->setCustomerRef([
+    'value' => 1
+]);
+```
+
+Helper methods;
+```
+$builder->setCustomer(1);
+```
+
+Once you build up your data, just call `create()`.
+```
+$invoice = $builder->create();
+```
+
+Upon doing so you Invoice will be created and your Invoice data object will be retured.
+
+Putting it all together;
+```
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$builder = $service->getBuilder();
+$builder->setAmount(100)
+        ->setCustomer(1);
+
+$invoice = $builder->create();
+```
+
+
+Note 1: Above example is a non-working solution. Please check Quickbooks' documentation on what are the required fields for each Entity.
+
+Note 2: Builder methods can be chained, except for `create()` which will return the created object.
+
+
+### Update
+Updating is exactly the same as Create however you will need to set a SyncToken first `setSyncToken()` and call `update()` instead.
+
+```
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$builder = $service->getBuilder();
+$builder->setAmount(100)
+        ->setCustomer(1)
+        ->setSyncToken($syncToken);
+
+$invoice = $builder->update();
+```
+An updated object will be returned by `update()`.
