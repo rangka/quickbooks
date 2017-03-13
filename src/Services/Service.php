@@ -7,19 +7,22 @@ use Rangka\Quickbooks\Query;
 
 class Service extends Client {
     /**
-     * Name of this service. Must correspond to actual objecet type in Quickbooks.
+     * Name of this service. This corresponds to API endpoint on Quickbooks.
+     * 
      * @var string
      */
-    protected static $name;
+    protected static $resource;
 
     /**
-     * Resource name of this service. Must correspond to actual objecet type in Quickbooks and in all lowercase.
+     * Resource name of this service. Must correspond to actual object type in Quickbooks and in all lowercase.
+     * 
      * @var string
      */
-    protected static $resource_name;
+    protected static $entity;
 
     /**
     * Load a single item
+    * 
     * @return 
     */
     public function load($id) {
@@ -28,6 +31,7 @@ class Service extends Client {
 
     /**
     * Create a single item
+    * 
     * @param array $data Item information
     * @return 
     */
@@ -83,7 +87,7 @@ class Service extends Client {
     * @return \Rangka\Quickbooks\Builders\Builder
     */
     public function getBuilder() {
-        $class = '\Rangka\Quickbooks\Builders\\' . $this->getEntityName();
+        $class = '\Rangka\Quickbooks\Builders\\' . $this->getClassName();
         return new $class($this);
     }
 
@@ -93,20 +97,32 @@ class Service extends Client {
      * @return string
      */
     public function getEntityName() {
-        if (static::$name) {
-            return static::$name;
+        if (static::$entity) {
+            return static::$entity;
         }
 
+        return $this->getClassName();
+    }
+
+    /**
+     * Get name of this class.
+     * 
+     * @return string
+     */
+    public function getClassName()
+    {
         $fullClass = get_called_class();
         $exploded  = explode('\\', $fullClass);
+
         return end($exploded);
     }
 
     /**
      * Get the name of this service.
+     * 
      * @return string
      */
     public function getResourceName() {
-        return static::$name ?: strtolower($this->getEntityName());
+        return static::$resource ?: strtolower($this->getEntityName());
     }
 }
