@@ -159,15 +159,20 @@ class Client {
             'Content-Type' => 'application/json'
         ], $headers);
 
-        $response = (new Guzzle([
+        $guzzleOptions = [
             'base_uri' => $base_uri,
-            'headers' => [
+            'headers'  => [
                 'Accept'        => $headers['Accept'],
                 'Content-Type'  => $headers['Content-Type'],
                 'Authorization' => $signed['header']
             ],
-            'json' => $body instanceof Builder ? $body->toArray() : $body
-        ]))->request($method, $url);
+        ];
+
+        if ($body) {
+            $guzzleOptions['json'] = $body instanceof Builder ? $body->toArray() : $body;
+        }
+
+        $response = (new Guzzle($guzzleOptions))->request($method, $url);
 
         if ($headers['Accept'] == 'application/json') {
             return json_decode((string) $response->getBody());
@@ -191,8 +196,8 @@ class Client {
     * 
     * @return void
     */
-    public function post($url, $body = []) {
-        return $this->request('POST', $url, $body);
+    public function post($url, $body = [], $headers = []) {
+        return $this->request('POST', $url, $body, $headers);
     }
 
     /**
