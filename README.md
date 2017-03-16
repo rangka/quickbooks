@@ -162,6 +162,7 @@ An updated object will be returned by `update()`.
 #### Attachment
 This is generally the same as Attachable however Entity will be implied from Service.
 ```
+$id = 566;                         // Required
 $files = [
     [
         'path' => '/path/to/file', // Required
@@ -169,10 +170,13 @@ $files = [
         'name' => 'filename.png'   // Optional
     ]
 ];
+$includeOnSend = true;             // Optional
 
 $service = new \Rangka\Quickbooks\Services\Invoice;
-$service->attach($id, $files);
+$service->attach($id, $files, $includeOnSend);
 ```
+`$files` is an array of associative array. Add more of the associative array to upload more files at the same time.
+
 Note: Not all Entities can have attachments. Currently supported Entity with Attachments is Invoice, Vendor, VendorCredit, Purchase, PurchaseOrder, Transfer, JournalEntry, Deposit, CreditMemo, Estimate, RefundReceipt, SalesReceipt, Bill, Customer and Payment.
 
 # Entity-specific Usage
