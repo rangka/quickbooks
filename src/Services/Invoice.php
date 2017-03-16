@@ -4,10 +4,11 @@ namespace Rangka\Quickbooks\Services;
 
 use Rangka\Quickbooks\Builders\InvoiceItem;
 use Rangka\Quickbooks\Client;
+use Rangka\Quickbooks\Services\Traits\Attachable;
 use Rangka\Quickbooks\Services\Traits\Itemizable;
 
 class Invoice extends Service {
-    use Itemizable;
+    use Itemizable, Attachable;
 
     /**
      * Download Invoice as PDF
