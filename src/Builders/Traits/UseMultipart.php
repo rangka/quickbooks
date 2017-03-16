@@ -18,8 +18,7 @@ trait UseMultipart {
      * 
      * @return void
      */
-    public function addJsonPart($name, $body)
-    {
+    public function addJsonPart($name, $body) {
         $this->parts[] = [
             'name'     => $name,
             'contents' => json_encode($body),
@@ -38,8 +37,7 @@ trait UseMultipart {
      * 
      * @return void
      */
-    public function addFilePart($name, $filePath, $fileType, $fileName = null)
-    {
+    public function addFilePart($name, $filePath, $fileType, $fileName = null) {
         $part = [
             'name'     => $name,
             'contents' => fopen($filePath, 'r'),
@@ -60,8 +58,7 @@ trait UseMultipart {
      * 
      * @return array
      */
-    public function getParts()
-    {
+    public function getParts() {
         return $this->parts;   
     }
 }

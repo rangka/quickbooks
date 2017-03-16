@@ -8,8 +8,7 @@ trait Itemizable {
      * 
      * @return \Rangka\Quickbooks\Builders\ItemizedItem
      */
-    public function getItemBuilder()
-    {
+    public function getItemBuilder() {
         $class = '\Rangka\Quickbooks\Builders\Items\\' . $this->getEntityName();
         return new $class($this);
     }

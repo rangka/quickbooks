@@ -100,8 +100,7 @@ abstract class Builder implements BuilderContract {
      * 
      * @return string
      */
-    public function getEntityName()
-    {
+    public function getEntityName() {
         $fullClass = get_called_class();
         $exploded  = explode('\\', $fullClass);
         return end($exploded);
@@ -111,8 +110,7 @@ abstract class Builder implements BuilderContract {
      * Get the name of this service.
      * @return string
      */
-    public function getResourceName()
-    {
+    public function getResourceName() {
         return static::$name ?: strtolower($this->getEntityName());
     }
 }

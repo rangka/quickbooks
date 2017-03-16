@@ -34,8 +34,7 @@ class Attachable extends Builder {
      * 
      * @return void
      */
-    public function addFile($file, $entity = null, $id = null)
-    {
+    public function addFile($file, $entity = null, $id = null) {
         $this->addFilePart('file_content_' . $this->count, $file['path'], $file['type'], isset($file['name']) ? $file['name'] : null);
         $this->addJsonPart('file_metadata_' . $this->count, [
             'AttachableRef' => [

@@ -218,8 +218,7 @@ class Client {
      * 
      * @return string
      */
-    private function getBaseURL()
-    {
+    private function getBaseURL() {
         return self::$sandbox ? self::URL_API_BASE_SANDBOX : self::URL_API_BASE_LIVE;
     }
 }

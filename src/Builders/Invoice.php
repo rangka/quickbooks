@@ -84,8 +84,7 @@ class Invoice extends Builder {
      * @param  string   $id     TaxRateRef ID.
      * @return \Rangka\Quickbooks\Builders\Invoice
      */
-    public function addTaxableAmount($amount, $id)
-    {
+    public function addTaxableAmount($amount, $id) {
         $this->data['TxnTaxDetail']['TaxLine'] = [
             [
                 'DetailType' => 'TaxLineDetail',
