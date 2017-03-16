@@ -160,7 +160,6 @@ $invoice = $builder->update();
 An updated object will be returned by `update()`.
 
 #### Attachment
-This is generally the same as Attachable however Entity will be implied from Service.
 ```
 $id = 566;                         // Required
 $files = [
