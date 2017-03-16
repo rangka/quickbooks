@@ -28,6 +28,7 @@ class Attachable extends Builder {
      *
      * @param array  $file    Consists of:
      *                           - 'path' - Path to file.
+     *                           - 'type' - Filetype.
      *                           - 'name' - Filename. Optional.
      * @param string $entity  Entity type to attach this file to.
      * @param int    $id      ID of entity.

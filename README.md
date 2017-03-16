@@ -96,7 +96,7 @@ $service = new \Rangka\Quickbooks\Services\Invoice;
 $response = $service->delete($id);
 ```
 
-### Create
+#### Create
 In order to create, you will need to obtain a Builder for the entity you wish for. You can get the Builder instance from its Service. Example given is for Invoice;
 ```
 $service = new \Rangka\Quickbooks\Services\Invoice;
@@ -122,7 +122,7 @@ Helper methods;
 $builder->setCustomer(1);
 ```
 
-Once you build up your data, just call `create()`.
+Once you've built up your data, just call `create()`.
 ```
 $invoice = $builder->create();
 ```
@@ -145,7 +145,7 @@ Note 1: Above example is a non-working solution. Please check Quickbooks' docume
 Note 2: Builder methods can be chained, except for `create()` which will return the created object.
 
 
-### Update
+#### Update
 Updating is exactly the same as Create however you will need to set a SyncToken first `setSyncToken()` and call `update()` instead.
 
 ```
@@ -158,3 +158,55 @@ $builder->setAmount(100)
 $invoice = $builder->update();
 ```
 An updated object will be returned by `update()`.
+
+#### Attachment
+This is generally the same as Attachable however Entity will be implied from Service.
+```
+$files = [
+    [
+        'path' => '/path/to/file', // Required
+        'type' => 'image/png'      // Required
+        'name' => 'filename.png'   // Optional
+    ]
+];
+
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$service->attach($id, $files);
+```
+Note: Not all Entities can have attachments. Currently supported Entity with Attachments is Invoice.
+
+# Entity-specific Usage
+Certain entities have usages beyond the normal CRUD operation.
+
+## Attachable
+#### Uploading File
+```
+$service = new \Rangka\Quickbooks\Services\Attachable;
+$builder = $service->getBuilder();
+
+$file = [
+    'path' => '/path/to/file', // Required
+    'type' => 'image/png'      // Required
+    'name' => 'filename.png'   // Optional
+];
+$entity = 'Invoice'; // Optional
+$entityID = 566;     // Optional
+
+$builder->addFile($file, $entity, $entityID);
+$response = $builder->upload(); 
+```
+Response upon upload is an array of Attachable objects.
+
+Note: While Attachable can be used directly, its generally not recommended if you wish to upload to a specific entity. Use each respective Services to upload files.
+
+## Invoice
+#### Send Email
+```
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$service->email($invoiceID, $email); // Email is optional
+```
+#### Download PDF
+```
+$service = new \Rangka\Quickbooks\Services\Invoice;
+$service->downloadPdf($invoiceID);
+```
