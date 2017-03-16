@@ -173,7 +173,7 @@ $files = [
 $service = new \Rangka\Quickbooks\Services\Invoice;
 $service->attach($id, $files);
 ```
-Note: Not all Entities can have attachments. Currently supported Entity with Attachments is Invoice.
+Note: Not all Entities can have attachments. Currently supported Entity with Attachments is Invoice, Vendor, VendorCredit, Purchase, PurchaseOrder, Transfer, JournalEntry, Deposit, CreditMemo, Estimate, RefundReceipt, SalesReceipt, Bill, Customer and Payment.
 
 # Entity-specific Usage
 Certain entities have usages beyond the normal CRUD operation.
