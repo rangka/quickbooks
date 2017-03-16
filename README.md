@@ -165,7 +165,7 @@ This is generally the same as Attachable however Entity will be implied from Ser
 $files = [
     [
         'path' => '/path/to/file', // Required
-        'type' => 'image/png'      // Required
+        'type' => 'image/png'      // Optional
         'name' => 'filename.png'   // Optional
     ]
 ];
@@ -186,7 +186,7 @@ $builder = $service->getBuilder();
 
 $file = [
     'path' => '/path/to/file', // Required
-    'type' => 'image/png'      // Required
+    'type' => 'image/png'      // Optional
     'name' => 'filename.png'   // Optional
 ];
 $entity = 'Invoice'; // Optional

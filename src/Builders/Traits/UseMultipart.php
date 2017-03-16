@@ -37,14 +37,15 @@ trait UseMultipart {
      * 
      * @return void
      */
-    public function addFilePart($name, $filePath, $fileType, $fileName = null) {
+    public function addFilePart($name, $filePath, $fileType = null, $fileName = null) {
         $part = [
             'name'     => $name,
             'contents' => fopen($filePath, 'r'),
-            'headers'  => [
-                'Content-Type' => $fileType,
-            ],
         ];
+
+        if ($fileType) {
+            $part['headers']['Content-Type'] = $fileType;
+        }
 
         if ($fileName) {
             $part['filename'] = $fileName;
