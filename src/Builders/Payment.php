@@ -2,12 +2,11 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-use Rangka\Quickbooks\Builders\Attachable;
 use Rangka\Quickbooks\Builders\Traits\HasCustomer;
 use Rangka\Quickbooks\Builders\Traits\Itemizable;
 
 class Payment extends Builder {
-    use HasCustomer, Itemizable, Attachable;
+    use HasCustomer, Itemizable;
 
     /**
      * Alias to setTotalAmt()
