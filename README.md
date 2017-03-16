@@ -184,20 +184,30 @@ Certain entities have usages beyond the normal CRUD operation.
 $service = new \Rangka\Quickbooks\Services\Attachable;
 $builder = $service->getBuilder();
 
+// This is required
 $file = [
     'path' => '/path/to/file', // Required
     'type' => 'image/png'      // Optional
     'name' => 'filename.png'   // Optional
 ];
-$entity = 'Invoice'; // Optional
-$entityID = 566;     // Optional
 
-$builder->addFile($file, $entity, $entityID);
+// This is optional
+$entities = [
+    [
+        'entity'        => 'Invoice',
+        'id'            => 566,
+        'includeOnSend' => true,
+    ]
+];
+
+$builder->addFile($file, $entities);
 $response = $builder->upload(); 
 ```
+You are allowed to specify multiple Entities per Attachable.
+
 Response upon upload is an array of Attachable objects.
 
-Note: While Attachable can be used directly, its generally not recommended if you wish to upload to a specific entity. Use each respective Services to upload files.
+Note: While Attachable can be used directly, its generally not recommended if you wish to upload a single file to a specific entity. Use each respective Services to upload files. Only use this if you wish to upload and link to several entities at once.
 
 ## Invoice
 #### Send Email
