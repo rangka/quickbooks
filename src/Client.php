@@ -3,6 +3,7 @@ namespace Rangka\Quickbooks;
 
 use GuzzleHttp\Client as Guzzle;
 use Rangka\Quickbooks\Builders\Builder;
+use Rangka\Quickbooks\Builders\Traits\UseMultipart;
 
 class Client {
     /**
@@ -154,6 +155,7 @@ class Client {
         $signed   = $this->sign($method, $full_url, [
             'oauth_token' => self::$oauth_token
         ]);
+
         $headers  = array_merge([
             'Accept'       => 'application/json',
             'Content-Type' => 'application/json'
@@ -168,11 +170,22 @@ class Client {
             ],
         ];
 
+        $requestOptions = [];
         if ($body) {
-            $guzzleOptions['json'] = $body instanceof Builder ? $body->toArray() : $body;
+            if ($body instanceof Builder) {
+                if (in_array(UseMultipart::class, class_uses($body))) {
+                    $requestOptions['multipart'] = $body->getParts();
+                }
+                else {
+                    $guzzleOptions['json'] =  $body->toArray();
+                }
+            }
+            else {
+                $guzzleOptions['json'] =  $body;
+            }
         }
 
-        $response = (new Guzzle($guzzleOptions))->request($method, $url);
+        $response = (new Guzzle($guzzleOptions))->request($method, $url, $requestOptions);
 
         if ($headers['Accept'] == 'application/json') {
             return json_decode((string) $response->getBody());
