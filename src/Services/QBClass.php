@@ -6,13 +6,15 @@ use Rangka\Quickbooks\Client;
 
 class QBClass extends Service {
     /**
-     * Name of this service. Must correspond to actual objecet type in Quickbooks.
+     * Resource endpoint of this service.
+     * 
      * @var string
      */
     protected static $resource = 'class';
 
     /**
-     * Resource name of this service. Must correspond to actual objecet type in Quickbooks and in all lowercase.
+     * Entity name of this service. Must correspond to actual object type in Quickbooks.
+     * 
      * @var string
      */
     protected static $entity = 'Class';
