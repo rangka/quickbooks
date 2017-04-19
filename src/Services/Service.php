@@ -7,18 +7,25 @@ use Rangka\Quickbooks\Query;
 
 class Service extends Client {
     /**
-     * Name of this service. This corresponds to API endpoint on Quickbooks.
+     * Resource endpoint of this service.
      * 
      * @var string
      */
     protected static $resource;
 
     /**
-     * Resource name of this service. Must correspond to actual object type in Quickbooks and in all lowercase.
+     * Entity name of this service. Must correspond to actual object type in Quickbooks.
      * 
      * @var string
      */
     protected static $entity;
+
+    /**
+     * Some resource endpoint sends response without root. Set this to false when that happens.
+     *
+     * @var boolean
+     */
+    protected static $responseHasRoot = true;
 
     /**
     * Load a single item
@@ -36,7 +43,14 @@ class Service extends Client {
     * @return 
     */
     public function create($data) {
-        return parent::post($this->getResourceName(), $data)->{$this->getEntityName()};
+        $response = parent::post($this->getResourceName(), $data);
+
+        // Response has no root, send it back immediately.
+        if (!$this->responseHasRoot) {
+            return $response;
+        }
+
+        return $response->{$this->getEntityName()};
     }
 
     /**
@@ -46,7 +60,14 @@ class Service extends Client {
     * @return void
     */
     public function update($data) {
-        return parent::post($this->getResourceName() . '?operation=update', $data)->{$this->getEntityName()};
+        $response = parent::post($this->getResourceName() . '?operation=update', $data);
+
+        // Response has no root, send it back immediately.
+        if (!$this->responseHasRoot) {
+            return $response;
+        }
+
+        return $response->{$this->getEntityName()};
     }
     
     /**
