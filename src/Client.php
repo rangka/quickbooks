@@ -110,10 +110,17 @@ class Client {
             'oauth_timestamp'        => time(),
             'oauth_version'          => '1.0'
         ], $params);
+
+        // set query parameters
+        $parsedQuery = [];
+        parse_str($parsedURL['query'], $parsedQuery);
+        $params = array_merge($parsedQuery, $params);
+
+        //sort parameters by key
         ksort($params);
 
         // generate string to be signed
-        $string = $method . '&' . rawurlencode($url) . '&' . rawurlencode(http_build_query($params) . (isset($parsedURL['query']) ? '&' . $parsedURL['query'] : ''));
+        $string = $method . '&' . rawurlencode($url) . '&' . rawurlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
 
         // calculate signature
         $params['oauth_signature'] = base64_encode(hash_hmac('sha1', $string, rawurlencode(self::$consumer_secret) . '&' . rawurlencode(self::$oauth_token_secret), true));
