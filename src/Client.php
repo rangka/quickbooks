@@ -111,12 +111,14 @@ class Client {
             'oauth_version'          => '1.0'
         ], $params);
 
-        // set query parameters
-        $parsedQuery = [];
-        parse_str($parsedURL['query'], $parsedQuery);
-        $params = array_merge($parsedQuery, $params);
+        // set query parameters if exists
+        if (isset($parsedURL['query'])) {
+            $parsedQuery = [];
+            parse_str($parsedURL['query'], $parsedQuery);
+            $params = array_merge($parsedQuery, $params);
+        }
 
-        //sort parameters by key
+        // sort parameters by key
         ksort($params);
 
         // generate string to be signed
