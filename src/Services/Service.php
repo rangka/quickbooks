@@ -46,7 +46,7 @@ class Service extends Client {
         $response = parent::post($this->getResourceName(), $data);
 
         // Response has no root, send it back immediately.
-        if (!self::$responseHasRoot) {
+        if (!static::$responseHasRoot) {
             return $response;
         }
 
@@ -63,7 +63,7 @@ class Service extends Client {
         $response = parent::post($this->getResourceName() . '?operation=update', $data);
 
         // Response has no root, send it back immediately.
-        if (!self::$responseHasRoot) {
+        if (!static::$responseHasRoot) {
             return $response;
         }
 
