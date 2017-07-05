@@ -1,7 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-class PurchaseOrder extends Builder {
-
+class PurchaseOrder extends Builder
+{
 }

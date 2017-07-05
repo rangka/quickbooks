@@ -1,7 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-class TaxAgency extends Builder {
-
+class TaxAgency extends Builder
+{
 }

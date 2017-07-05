@@ -1,10 +1,10 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
-use Rangka\Quickbooks\Client;
-use Rangka\Quickbooks\Services\Traits\Attachable;
+use ReneDeKat\Quickbooks\Services\Traits\Attachable;
 
-class Estimate extends Service {
+class Estimate extends Service
+{
     use Attachable;
 }

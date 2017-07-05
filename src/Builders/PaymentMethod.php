@@ -1,7 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-class PaymentMethod extends Builder {
-
+class PaymentMethod extends Builder
+{
 }

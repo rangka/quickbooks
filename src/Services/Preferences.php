@@ -1,18 +1,18 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
-use Rangka\Quickbooks\Client;
-
-class Preferences extends Service {
-  
-  /**
-     * Load a single item
+class Preferences extends Service
+{
+    /**
+     * Load a single item.
+     *
+     * @param $id
      *
      * @return
      */
-    public function load($id) {
+    public function load($id)
+    {
         return parent::get($this->getResourceName())->{$this->getEntityName()};
     }
-  
 }

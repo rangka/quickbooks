@@ -1,7 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-class JournalEntry extends Builder {
-
+class JournalEntry extends Builder
+{
 }

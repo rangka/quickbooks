@@ -1,19 +1,20 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-interface BuilderContract {
+interface BuilderContract
+{
     /**
-    * Return data in JSON format.
-    * 
-    * @return string
-    */
+     * Return data in JSON format.
+     *
+     * @return string
+     */
     public function toJson();
 
     /**
-    * Format data in array.
-    * 
-    * @return string
-    */
+     * Format data in array.
+     *
+     * @return string
+     */
     public function toArray();
 }

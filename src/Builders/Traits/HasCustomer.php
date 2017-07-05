@@ -1,15 +1,18 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders\Traits;
+namespace ReneDeKat\Quickbooks\Builders\Traits;
 
-trait HasCustomer {
+trait HasCustomer
+{
     /**
-    * Set Customer's ID
-    *
-    * @param integer $id Customer's Quickbooks ID
-    * @return \Rangka\Quickbooks\Builders\Invoice
-    */
-    public function setCustomer($id) {
+     * Set Customer's ID.
+     *
+     * @param int $id Customer's Quickbooks ID
+     *
+     * @return $this
+     */
+    public function setCustomer($id)
+    {
         $this->data['CustomerRef']['value'] = $id;
 
         return $this;

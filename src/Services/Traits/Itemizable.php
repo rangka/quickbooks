@@ -1,15 +1,18 @@
 <?php
 
-namespace Rangka\Quickbooks\Services\Traits;
+namespace ReneDeKat\Quickbooks\Services\Traits;
 
-trait Itemizable {
+trait Itemizable
+{
     /**
      * Get Itemized Item Builder.
-     * 
-     * @return \Rangka\Quickbooks\Builders\ItemizedItem
+     *
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice|\ReneDeKat\Quickbooks\Builders\Items\Payment
      */
-    public function getItemBuilder() {
-        $class = '\Rangka\Quickbooks\Builders\Items\\' . $this->getEntityName();
+    public function getItemBuilder()
+    {
+        $class = '\ReneDeKat\Quickbooks\Builders\Items\\'.$this->getEntityName();
+
         return new $class($this);
     }
 }

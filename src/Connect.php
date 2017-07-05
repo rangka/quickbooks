@@ -1,10 +1,11 @@
 <?php
 
-namespace Rangka\Quickbooks;
+namespace ReneDeKat\Quickbooks;
 
-use GuzzleHttp\Client AS Guzzle;
+use GuzzleHttp\Client as Guzzle;
 
-class Connect extends Client {
+class Connect extends Client
+{
     /**
      * URL to request token.
      *
@@ -13,21 +14,21 @@ class Connect extends Client {
     const URL_REQUEST_TOKEN = 'https://oauth.intuit.com/oauth/v1/get_request_token';
 
     /**
-     * URL to obtain access token
+     * URL to obtain access token.
      *
      * * @var string
      */
     const URL_ACCESS_TOKEN = 'https://oauth.intuit.com/oauth/v1/get_access_token';
 
     /**
-     * URL to connect/authorize OAuth
+     * URL to connect/authorize OAuth.
      *
      * * @var string
      */
     const URL_CONNECT = 'https://appcenter.intuit.com/Connect/Begin';
 
     /**
-     * URL to reconnect OAuth (refresh token)
+     * URL to reconnect OAuth (refresh token).
      *
      * * @var string
      */
@@ -35,33 +36,39 @@ class Connect extends Client {
 
     /**
      * Holds callback URL for redirection when user has authorized.
-     * 
+     *
      * @var string
      */
     protected $callback_url;
 
     /**
-    * Constructor
-    * @return void
-    */
-    public function __construct($options = []) {
-        parent::__construct($options);
+     * Connect constructor.
+     *
+     * @param array $options
+     */
+    public function __construct($options = [])
+    {
+        parent::__construct();
 
-        if (isset($options['callback_url']))
+        if (isset($options['callback_url'])) {
             $this->callback_url = $options['callback_url'];
+        }
     }
 
     /**
-    * Get token from QuickBooks.
-    * 
-    * @return array
-    */
-    public function requestAccess() {
-        if(self::$oauth_token)
-            throw new \Exception('Quickbooks has been connected. Please disconnect before proceeding.');
-        
+     * Get token from QuickBooks.
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public function requestAccess()
+    {
+        if (self::$oauth_token) {
+            throw new \Exception('QuickBooks has been connected. Please disconnect before proceeding.');
+        }
         $res = $this->request('GET', self::URL_REQUEST_TOKEN, [
-            'oauth_callback' => $this->callback_url
+            'oauth_callback' => $this->callback_url,
         ]);
 
         // retrieve the value
@@ -70,50 +77,57 @@ class Connect extends Client {
 
         return [
             'oauth_token_secret' => $params['oauth_token_secret'],
-            'url'                => self::URL_CONNECT . '?' . (string) $res->getBody()
+            'url'                => self::URL_CONNECT.'?'.(string) $res->getBody(),
         ];
     }
 
     /**
-    * Reconnect to Quickbooks to get a fresh token.
-    * 
-    * @return array
-    */
-    public function reconnect() {
+     * Reconnect to QuickBooks to get a fresh token.
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    public function reconnect()
+    {
         $signed = $this->sign('GET', self::URL_RECONNECT, [
-            'oauth_token' => self::$oauth_token
+            'oauth_token' => self::$oauth_token,
         ]);
 
         $response = (new Guzzle([
             'headers' => [
                 'Accept'        => 'application/json',
                 'Content-Type'  => 'application/json',
-                'Authorization' => $signed['header']
-            ]
+                'Authorization' => $signed['header'],
+            ],
         ]))->request('GET', self::URL_RECONNECT);
 
         // retrieve the value
         $response = json_decode((string) $response->getBody(), true);
 
-        if ($response['ErrorMessage'])
+        if ($response['ErrorMessage']) {
             throw new \Exception($response['ErrorMessage'], $response['ErrorCode']);
+        }
 
         return [
             'oauth_token_secret' => $response['OAuthTokenSecret'],
             'oauth_token'        => $response['OAuthToken'],
-            'oauth_expiry'       => time() + (86400 * 180)
+            'oauth_expiry'       => time() + (86400 * 180),
         ];
     }
 
     /**
-    * Connect to Quickbooks and save OAuth token for future usage.
-    * 
-    * @return array
-    */
-    public function connect($params) {
+     * Connect to QuickBooks and save OAuth token for future usage.
+     *
+     * @param $params
+     *
+     * @return array
+     */
+    public function connect($params)
+    {
         $response = $this->request('GET', self::URL_ACCESS_TOKEN, [
-            'oauth_token'    => $params['oauth_token'], 
-            'oauth_verifier' => $params['oauth_verifier']
+            'oauth_token'    => $params['oauth_token'],
+            'oauth_verifier' => $params['oauth_verifier'],
         ]);
 
         // retrieve the value
@@ -124,19 +138,24 @@ class Connect extends Client {
             'oauth_token_secret' => $values['oauth_token_secret'],
             'oauth_token'        => $values['oauth_token'],
             'oauth_expiry'       => time() + (86400 * 180),
-            'company_id'         => $params['realmId']
+            'company_id'         => $params['realmId'],
         ];
     }
 
     /**
-    * Request from Quickbooks.
-    * 
-    * @return array
-    */
-    public function request($method, $url, $params = [], $headers = []) {
+     * Request from QuickBooks.
+     *
+     * @param $method
+     * @param $url
+     * @param array $params
+     * @param array $headers
+     *
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     */
+    public function request($method, $url, $params = [], $headers = [])
+    {
         $signed = $this->sign('GET', $url, $params);
 
         return $response = (new Guzzle())->request($method, $signed['url']);
     }
 }
-

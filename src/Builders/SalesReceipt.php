@@ -1,7 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-class SalesReceipt extends Builder {
-
+class SalesReceipt extends Builder
+{
 }

@@ -1,7 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-class TimeActivity extends Builder {
-
+class TimeActivity extends Builder
+{
 }

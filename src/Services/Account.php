@@ -1,10 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
-use Rangka\Quickbooks\Builders\Address;
-use Rangka\Quickbooks\Client;
-
-class Account extends Service {
-    
+class Account extends Service
+{
 }

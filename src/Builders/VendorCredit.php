@@ -1,7 +1,7 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-class VendorCredit extends Builder {
-
+class VendorCredit extends Builder
+{
 }
