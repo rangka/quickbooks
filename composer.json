@@ -1,6 +1,6 @@
 {
-    "name": "rangka/quickbooks",
-    "homepage": "http://rangka.my/quickbooks",
+    "name": "renedekat/quickbooks",
+    "homepage": "https://github.com/renedekat/quickbooks",
     "description": "Quickbooks' PHP Client",
     "keywords": ["quickbooks", "php"],
     "type": "library",
@@ -9,10 +9,14 @@
         {
             "name": "Khairul Ashraff",
             "homepage": "http://rangka.my/quickbooks"
+        },
+        {
+            "name": "René de Kat",
+            "homepage": "https://github.com/renedekat/quickbooks"
         }
     ],
     "support": {
-        "issues": "https://github.com/rangka/quickbooks"
+        "issues": "https://github.com/renedekat/quickbooks"
     },
     "require": {
         "php": ">=5.5",
