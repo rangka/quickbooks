@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class JournalEntry extends Builder {
-
+class JournalEntry extends Builder
+{
 }

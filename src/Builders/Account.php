@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Account extends Builder {
-
+class Account extends Builder
+{
 }

@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class BillPayment extends Service {
-    
+class BillPayment extends Service
+{
 }

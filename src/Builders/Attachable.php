@@ -4,7 +4,8 @@ namespace Rangka\Quickbooks\Builders;
 
 use Rangka\Quickbooks\Builders\Traits\UseMultipart;
 
-class Attachable extends Builder {
+class Attachable extends Builder
+{
     use UseMultipart;
 
     /**
@@ -16,31 +17,33 @@ class Attachable extends Builder {
 
     /**
      * Upload attachments to Quickbooks.
-     * 
+     *
      * @return \stdClass
      */
-    public function upload() {
+    public function upload()
+    {
         return $this->client->request('POST', 'upload', $this)->AttachableResponse;
     }
 
     /**
      * Add file to be uploaded.
      *
-     * @param array  $file    Consists of:
-     *                           - 'path' - Path to file. Required.
-     *                           - 'type' - Filetype. Required.
-     *                           - 'name' - Filename. Optional.
-     * @param array  $entities Consists of an array of assiociative array containing:
-     *                           - 'entity' - Entity type to attach this file to.
-     *                           - 'id' - ID of entity. 
-     *                           - 'includeOnSend' - Attach to Email. 
-     *                         This is optional.
-     * 
+     * @param array $file     Consists of:
+     *                        - 'path' - Path to file. Required.
+     *                        - 'type' - Filetype. Required.
+     *                        - 'name' - Filename. Optional.
+     * @param array $entities Consists of an array of assiociative array containing:
+     *                        - 'entity' - Entity type to attach this file to.
+     *                        - 'id' - ID of entity.
+     *                        - 'includeOnSend' - Attach to Email.
+     *                        This is optional.
+     *
      * @return void
      */
-    public function addFile($file, $entities = []) {
-        // Add File 
-        $this->addFilePart('file_content_' . $this->count, $file['path'], isset($file['type']) ? $file['type'] : null, isset($file['name']) ? $file['name'] : null);
+    public function addFile($file, $entities = [])
+    {
+        // Add File
+        $this->addFilePart('file_content_'.$this->count, $file['path'], isset($file['type']) ? $file['type'] : null, isset($file['name']) ? $file['name'] : null);
 
         $jsonData = [
             'FileName' => $file['name'],
@@ -73,7 +76,7 @@ class Attachable extends Builder {
         }
 
         // Add JSON metadata
-        $this->addJsonPart('file_metadata_' . $this->count, $jsonData);
+        $this->addJsonPart('file_metadata_'.$this->count, $jsonData);
 
         // Increase counter
         $this->count++;

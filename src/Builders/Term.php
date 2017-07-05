@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Term extends Builder {
-
+class Term extends Builder
+{
 }

@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class TaxAgency extends Builder {
-
+class TaxAgency extends Builder
+{
 }

@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class Term extends Service {
-    
+class Term extends Service
+{
 }

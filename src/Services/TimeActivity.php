@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class TimeActivity extends Service {
-    
+class TimeActivity extends Service
+{
 }

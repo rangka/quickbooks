@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Purchase extends Builder {
-
+class Purchase extends Builder
+{
 }

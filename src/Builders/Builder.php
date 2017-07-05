@@ -2,68 +2,77 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-abstract class Builder implements BuilderContract {
+abstract class Builder implements BuilderContract
+{
     /**
      * Carries the entire data.
-     * 
+     *
      * @var array
      */
     protected $data = [];
 
     /**
      * Holds client.
+     *
      * @var \Rangka\Quickbooks\Client
      */
     protected $client;
 
     /**
-    * Create a builder instance.
-    *
-    * @param \Rangka\Quickbooks\Client $client Client to connect to Quickbooks
-    * @return void
-    */
-    public function __construct($client = null) {
+     * Create a builder instance.
+     *
+     * @param \Rangka\Quickbooks\Client $client Client to connect to Quickbooks
+     *
+     * @return void
+     */
+    public function __construct($client = null)
+    {
         $this->client = $client;
     }
 
     /**
-    * Set's a value directly to root of array.
-    * @param  string $name      Method name that was called.
-    * @param  array  $arguments Arguments that was sent in with the call.
-    * @return Builder
+     * Set's a value directly to root of array.
+     *
+     * @param string $name      Method name that was called.
+     * @param array  $arguments Arguments that was sent in with the call.
+     *
+     * @return Builder
      */
-    public function __call($name, $arguments) {
+    public function __call($name, $arguments)
+    {
         if (substr($name, 0, 3) == 'set') {
             $prop = substr($name, 3);
             $this->data[$prop] = reset($arguments);
 
             return $this;
-        }
-        else if (substr($name, 0, 3) == 'get') {
+        } elseif (substr($name, 0, 3) == 'get') {
             $prop = substr($name, 3);
 
-            if (isset($this->data[$prop]))
+            if (isset($this->data[$prop])) {
                 return $this->data[$prop];
+            }
         }
 
-        throw new \Exception("Calling undefined method in " . get_called_class());
+        throw new \Exception('Calling undefined method in '.get_called_class());
     }
 
     /**
-    * Create data on Quickbooks
-    * 
-    * @return object
-    */
-    public function create() {
+     * Create data on Quickbooks.
+     *
+     * @return object
+     */
+    public function create()
+    {
         return $this->client->create($this);
     }
 
     /**
-    * Update data on Quickbooks
-    * 
-    * @return object
-    */
-    public function update() {
+     * Update data on Quickbooks.
+     *
+     * @return object
+     */
+    public function update()
+    {
         // In order to update an entity, we need to have the complete data. Otherwise, unprovided data will be removed.
         $existing = $this->client->load($this->getId());
 
@@ -78,39 +87,45 @@ abstract class Builder implements BuilderContract {
     }
 
     /**
-    * Return data in JSON format.
-    * 
-    * @return string
-    */
-    public function toJson() {
+     * Return data in JSON format.
+     *
+     * @return string
+     */
+    public function toJson()
+    {
         return json_encode($this->toArray());
     }
 
     /**
-    * Format data in array.
-    * 
-    * @return array
-    */
-    public function toArray() {
+     * Format data in array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
         return $this->data;
     }
 
     /**
-     * Get Entity Name
-     * 
+     * Get Entity Name.
+     *
      * @return string
      */
-    public function getEntityName() {
+    public function getEntityName()
+    {
         $fullClass = get_called_class();
-        $exploded  = explode('\\', $fullClass);
+        $exploded = explode('\\', $fullClass);
+
         return end($exploded);
     }
 
     /**
      * Get the name of this service.
+     *
      * @return string
      */
-    public function getResourceName() {
+    public function getResourceName()
+    {
         return static::$name ?: strtolower($this->getEntityName());
     }
 }

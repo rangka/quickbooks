@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Deposit extends Builder {
-
+class Deposit extends Builder
+{
 }

@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Vendor extends Builder {
-
+class Vendor extends Builder
+{
 }

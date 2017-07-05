@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Transfer extends Builder {
-
+class Transfer extends Builder
+{
 }

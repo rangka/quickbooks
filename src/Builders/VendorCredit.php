@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class VendorCredit extends Builder {
-
+class VendorCredit extends Builder
+{
 }

@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class CreditMemo extends Builder {
-
+class CreditMemo extends Builder
+{
 }

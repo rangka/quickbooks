@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class Employee extends Service {
-    
+class Employee extends Service
+{
 }
