@@ -1,10 +1,10 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
-use Rangka\Quickbooks\Builders\Builder;
-use Rangka\Quickbooks\Client;
-use Rangka\Quickbooks\Query;
+use ReneDeKat\Quickbooks\Builders\Builder;
+use ReneDeKat\Quickbooks\Client;
+use ReneDeKat\Quickbooks\Query;
 
 class Service extends Client
 {
@@ -119,7 +119,7 @@ class Service extends Client
      */
     public function getBuilder()
     {
-        $class = '\Rangka\Quickbooks\Builders\\'.$this->getClassName();
+        $class = '\ReneDeKat\Quickbooks\Builders\\'.$this->getClassName();
 
         return new $class($this);
     }

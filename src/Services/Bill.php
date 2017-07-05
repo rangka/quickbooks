@@ -1,8 +1,8 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
-use Rangka\Quickbooks\Services\Traits\Attachable;
+use ReneDeKat\Quickbooks\Services\Traits\Attachable;
 
 class Bill extends Service
 {

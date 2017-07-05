@@ -1,8 +1,8 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-use Rangka\Quickbooks\Builders\Traits\UseMultipart;
+use ReneDeKat\Quickbooks\Builders\Traits\UseMultipart;
 
 class Attachable extends Builder
 {

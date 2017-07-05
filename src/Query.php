@@ -1,13 +1,13 @@
 <?php
 
-namespace Rangka\Quickbooks;
+namespace ReneDeKat\Quickbooks;
 
 class Query
 {
     /**
      * Holds the client or any Services that utilizes it.
      *
-     * @var \Rangka\Quickbooks\Client
+     * @var \ReneDeKat\Quickbooks\Client
      */
     protected $client;
 

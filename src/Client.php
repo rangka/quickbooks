@@ -1,11 +1,11 @@
 <?php
 
-namespace Rangka\Quickbooks;
+namespace ReneDeKat\Quickbooks;
 
 use GuzzleHttp\Client as Guzzle;
 use Psr\Http\Message\StreamInterface;
-use Rangka\Quickbooks\Builders\Builder;
-use Rangka\Quickbooks\Builders\Traits\UseMultipart;
+use ReneDeKat\Quickbooks\Builders\Builder;
+use ReneDeKat\Quickbooks\Builders\Traits\UseMultipart;
 
 class Client
 {

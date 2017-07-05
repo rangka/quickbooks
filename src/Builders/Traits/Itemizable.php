@@ -1,8 +1,8 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders\Traits;
+namespace ReneDeKat\Quickbooks\Builders\Traits;
 
-use Rangka\Quickbooks\Builders\Items\Item;
+use ReneDeKat\Quickbooks\Builders\Items\Item;
 
 trait Itemizable
 {
@@ -27,7 +27,7 @@ trait Itemizable
      */
     public function getItemBuilder()
     {
-        $class = '\Rangka\Quickbooks\Builders\Items\\'.$this->getEntityName();
+        $class = '\ReneDeKat\Quickbooks\Builders\Items\\'.$this->getEntityName();
 
         return new $class($this);
     }

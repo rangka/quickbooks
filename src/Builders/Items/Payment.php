@@ -1,6 +1,6 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders\Items;
+namespace ReneDeKat\Quickbooks\Builders\Items;
 
 class Payment extends Item
 {

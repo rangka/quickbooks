@@ -1,6 +1,6 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
 interface BuilderContract
 {

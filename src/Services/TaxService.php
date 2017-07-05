@@ -1,6 +1,6 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
 class TaxService extends Service
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders\Items;
+namespace ReneDeKat\Quickbooks\Builders\Items;
 
 class Invoice extends Item
 {
@@ -9,7 +9,7 @@ class Invoice extends Item
      *
      * @param string $name Name of Item.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function setUnitPrice($name)
     {
@@ -23,7 +23,7 @@ class Invoice extends Item
      *
      * @param string $id Item ID
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function setItemRef($id)
     {
@@ -37,7 +37,7 @@ class Invoice extends Item
      *
      * @param int $quantity Item quantity.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function setQuantity($quantity)
     {
@@ -49,7 +49,7 @@ class Invoice extends Item
     /**
      * Set this Item as Sales Item.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function asSalesItem()
     {
@@ -61,7 +61,7 @@ class Invoice extends Item
     /**
      * Set this Item as Discount.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function asDiscount()
     {
@@ -75,7 +75,7 @@ class Invoice extends Item
      *
      * @param float $percent Discount percentage.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function setPercent($percent)
     {
@@ -90,7 +90,7 @@ class Invoice extends Item
      *
      * @param float $value Discount value.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function setValue($value)
     {
@@ -106,7 +106,7 @@ class Invoice extends Item
      * @param bool  $taxable Set to TRUE to make it taxable or FALSE otherwise. TRUE by default.
      * @param mixed $id      TaxCode ID.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Invoice
+     * @return \ReneDeKat\Quickbooks\Builders\Items\Invoice
      */
     public function isTaxable($taxable = true, $id = 'TAX')
     {

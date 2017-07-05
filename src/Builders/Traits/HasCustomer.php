@@ -1,6 +1,6 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders\Traits;
+namespace ReneDeKat\Quickbooks\Builders\Traits;
 
 trait HasCustomer
 {

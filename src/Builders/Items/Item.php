@@ -1,8 +1,8 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders\Items;
+namespace ReneDeKat\Quickbooks\Builders\Items;
 
-use Rangka\Quickbooks\Builders\Builder;
+use ReneDeKat\Quickbooks\Builders\Builder;
 
 abstract class Item extends Builder
 {

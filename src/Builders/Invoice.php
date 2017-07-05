@@ -1,9 +1,9 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
-use Rangka\Quickbooks\Builders\Traits\HasCustomer;
-use Rangka\Quickbooks\Builders\Traits\Itemizable;
+use ReneDeKat\Quickbooks\Builders\Traits\HasCustomer;
+use ReneDeKat\Quickbooks\Builders\Traits\Itemizable;
 
 class Invoice extends Builder
 {

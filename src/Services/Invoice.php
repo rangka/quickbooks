@@ -1,10 +1,10 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
 use Psr\Http\Message\StreamInterface;
-use Rangka\Quickbooks\Services\Traits\Attachable;
-use Rangka\Quickbooks\Services\Traits\Itemizable;
+use ReneDeKat\Quickbooks\Services\Traits\Attachable;
+use ReneDeKat\Quickbooks\Services\Traits\Itemizable;
 
 class Invoice extends Service
 {

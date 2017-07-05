@@ -1,9 +1,9 @@
 <?php
 
-namespace Rangka\Quickbooks\Services;
+namespace ReneDeKat\Quickbooks\Services;
 
-use Rangka\Quickbooks\Builders\Address;
-use Rangka\Quickbooks\Services\Traits\Attachable;
+use ReneDeKat\Quickbooks\Builders\Address;
+use ReneDeKat\Quickbooks\Services\Traits\Attachable;
 
 class Customer extends Service
 {
@@ -12,7 +12,7 @@ class Customer extends Service
     /**
      * Get an instance of Address Builder to build Address.
      *
-     * @return \Rangka\Quickbooks\Builders\Address
+     * @return \ReneDeKat\Quickbooks\Builders\Address
      */
     public function getAddressBuilder()
     {

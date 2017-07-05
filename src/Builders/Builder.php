@@ -1,6 +1,6 @@
 <?php
 
-namespace Rangka\Quickbooks\Builders;
+namespace ReneDeKat\Quickbooks\Builders;
 
 abstract class Builder implements BuilderContract
 {
@@ -14,14 +14,14 @@ abstract class Builder implements BuilderContract
     /**
      * Holds client.
      *
-     * @var \Rangka\Quickbooks\Client
+     * @var \ReneDeKat\Quickbooks\Client
      */
     protected $client;
 
     /**
      * Create a builder instance.
      *
-     * @param \Rangka\Quickbooks\Client $client Client to connect to Quickbooks
+     * @param \ReneDeKat\Quickbooks\Client $client Client to connect to Quickbooks
      *
      * @return void
      */

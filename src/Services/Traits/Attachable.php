@@ -1,8 +1,8 @@
 <?php
 
-namespace Rangka\Quickbooks\Services\Traits;
+namespace ReneDeKat\Quickbooks\Services\Traits;
 
-use Rangka\Quickbooks\Services\Attachable as AttachableService;
+use ReneDeKat\Quickbooks\Services\Attachable as AttachableService;
 
 trait Attachable
 {
@@ -22,7 +22,7 @@ trait Attachable
     {
         $service = new AttachableService();
 
-        /** @var \Rangka\Quickbooks\Builders\Attachable $builder */
+        /** @var \ReneDeKat\Quickbooks\Builders\Attachable $builder */
         $builder = $service->getBuilder();
 
         foreach ($files as $file) {

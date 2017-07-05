@@ -1,6 +1,6 @@
 <?php
 
-namespace Rangka\Quickbooks;
+namespace ReneDeKat\Quickbooks;
 
 use GuzzleHttp\Client as Guzzle;
 
