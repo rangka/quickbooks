@@ -17,5 +17,5 @@ class TaxService extends Service {
      *
      * @var boolean
      */
-    protected static $responseHasRoot = false;
+    protected $responseHasRoot = false;
 }
