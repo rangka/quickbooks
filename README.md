@@ -1,3 +1,5 @@
+[![StyleCI](https://styleci.io/repos/96235014/shield?branch=master)](https://styleci.io/repos/96235014)
+
 # Quickbooks
 PHP Library for connecting to QuickBooks.
 
