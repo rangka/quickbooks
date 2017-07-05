@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class Reports extends Service {
-    
+class Reports extends Service
+{
 }

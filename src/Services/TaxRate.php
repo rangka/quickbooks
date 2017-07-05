@@ -2,5 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class TaxRate extends Service {
+class TaxRate extends Service
+{
 }

@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class Department extends Service {
-    
+class Department extends Service
+{
 }

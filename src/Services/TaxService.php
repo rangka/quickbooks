@@ -2,10 +2,11 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class TaxService extends Service {
+class TaxService extends Service
+{
     /**
      * Resource endpoint of this service.
-     * 
+     *
      * @var string
      */
     protected static $resource = 'taxservice/taxcode';
@@ -13,7 +14,7 @@ class TaxService extends Service {
     /**
      * Some resource endpoint sends response without root. Set this to false when that happens.
      *
-     * @var boolean
+     * @var bool
      */
     protected $responseHasRoot = false;
 }

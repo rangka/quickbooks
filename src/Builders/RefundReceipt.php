@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class RefundReceipt extends Builder {
-
+class RefundReceipt extends Builder
+{
 }

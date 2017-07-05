@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Department extends Builder {
-
+class Department extends Builder
+{
 }

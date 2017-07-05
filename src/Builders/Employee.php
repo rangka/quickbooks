@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Employee extends Builder {
-
+class Employee extends Builder
+{
 }

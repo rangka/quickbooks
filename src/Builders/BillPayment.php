@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class BillPayment extends Builder {
-
+class BillPayment extends Builder
+{
 }

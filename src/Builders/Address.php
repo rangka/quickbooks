@@ -2,4 +2,6 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-class Address extends Builder {}
+class Address extends Builder
+{
+}

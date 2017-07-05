@@ -2,6 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-class Attachable extends Service {
-    
+class Attachable extends Service
+{
 }
