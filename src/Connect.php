@@ -108,6 +108,7 @@ class Connect extends Client
         if ($response['ErrorMessage']) {
             throw new \Exception($response['ErrorMessage'], $response['ErrorCode']);
         }
+
         return [
             'oauth_token_secret' => $response['OAuthTokenSecret'],
             'oauth_token'        => $response['OAuthToken'],
