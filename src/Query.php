@@ -103,7 +103,7 @@ class Query {
      * Set entity to request.
      *
      * @param    string                      $entity     Entity name.
-     * @return   \Rangka\Quickbooks\Query
+     * @return   Query
      */
     public function entity($entity) {
         $this->entity = $entity;
@@ -115,7 +115,7 @@ class Query {
      * Set properties to retrieve
      *
      * @param    array[string]               $properties     Array of properties.
-     * @return   \Rangka\Quickbooks\Query
+     * @return   Query
      */
     public function select($properties) {
         if (!is_array($properties))
@@ -132,7 +132,7 @@ class Query {
      * @param    string                      $property       Property name.
      * @param    string                      $operator       Operator for constraining. Either `<`, `<=`, `>`, `>=`, `=`, `!=`, `LIKE`
      * @param    string                      $constraint     Value of constraint
-     * @return   \Rangka\Quickbooks\Query
+     * @return   Query
      */
     public function where($property, $operator, $constraint) {
         $this->where[] = $property . " " . $operator . " '" . $constraint . "'";
@@ -144,7 +144,7 @@ class Query {
      * Set a where constraint for a TRUE boolean.
      *
      * @param    string                      $property       Property name.
-     * @return   \Rangka\Quickbooks\Query
+     * @return   Query
      */
     public function whereTrue($property) {
         $this->where[] = $property . " = true";
@@ -156,7 +156,7 @@ class Query {
      * Set a where constraint for a FALSE boolean.
      *
      * @param    string                      $property       Property name.
-     * @return   \Rangka\Quickbooks\Query
+     * @return   Query
      */
     public function whereFalse($property) {
         $this->where[] = $property . " = false";
@@ -167,9 +167,9 @@ class Query {
     /**
      * Set a an IN constraint.
      *
-     * @param    string    $property       Property name.
-     * @param    array     $array          Array of IDs. 
-     * @return   void
+     * @param string $property Property name.
+     * @param array $ids Array of IDs.
+     * @return Query
      */
     public function in($property, $ids)
     {
@@ -183,7 +183,7 @@ class Query {
      *
      * @param string $property Property name.
      * @param string $constraint Constraint value.
-     * @return \Rangka\Quickbooks\Query
+     * @return Query
      */
     public function like($property, $constraint) {
         return $this->where($property, 'LIKE', $constraint);
@@ -194,7 +194,7 @@ class Query {
      *
      * @param  integer $start Start position.
      * @param  integer $length Number of entities to fetch.
-     * @return void
+     * @return Query
      */
     public function paginate($start, $length)
     {
@@ -211,7 +211,7 @@ class Query {
      *
      * @param  string $property Property to be used for sorting.
      * @param  string $order    Ordering. Either "ASC" or "DESC". Optional.
-     * @return void
+     * @return Query
      */
     public function orderBy($property, $order = null)
     {
@@ -224,9 +224,10 @@ class Query {
     }
 
     /**
-     * Get data from Quickbooks
-     * 
-     * @return array
+     * Get data from QuickBooks
+     *
+     * @return array|\stdClass
+     * @throws \Exception
      */
     public function get() {
         $data = $this->client->get('query?query=' . rawurlencode($this));

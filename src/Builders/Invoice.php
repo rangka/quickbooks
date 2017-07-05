@@ -12,7 +12,7 @@ class Invoice extends Builder {
     * Set Tax Code Reference ID
     *
     * @param string $code Tax Code Reference ID
-    * @return \Rangka\Quickbooks\Builders\Invoice
+    * @return Invoice
     */
     public function setTaxCodeRef($code) {
         $this->data['TxnTaxDetail']['TxnTaxCodeRef']['value'] = $code;
@@ -24,7 +24,7 @@ class Invoice extends Builder {
     * Set discount percentage.
     *
     * @param float $percent Discount percentage
-    * @return \Rangka\Quickbooks\Builders\Invoice
+    * @return Invoice
     */
     public function setDiscountPercent($percent) {
         $discount = $this->client->getItemBuilder()
@@ -40,7 +40,7 @@ class Invoice extends Builder {
     * Set discount value.
     *
     * @param float $percent Discount value
-    * @return \Rangka\Quickbooks\Builders\Invoice
+    * @return Invoice
     */
     public function setDiscountValue($value) {
         $discount = $this->client->getItemBuilder()
@@ -56,7 +56,7 @@ class Invoice extends Builder {
      * Set Billing Address by ID.
      *
      * @param  string $id Address ID
-     * @return \Rangka\Quickbooks\Builders\Invoice
+     * @return Invoice
      */
     public function setBillingAddressId($id) {
         $this->data['BillAddr']['Id'] = $id;
@@ -68,7 +68,7 @@ class Invoice extends Builder {
      * Set Shipping Address by ID.
      * 
      * @param  string $id Address ID
-     * @return \Rangka\Quickbooks\Builders\Invoice
+     * @return Invoice
      */
     public function setShippingAddressId($id) {
         $this->data['ShipAddr']['Id'] = $id;
@@ -82,7 +82,7 @@ class Invoice extends Builder {
      *
      * @param  float    $amount Amount to be taxed.
      * @param  string   $id     TaxRateRef ID.
-     * @return \Rangka\Quickbooks\Builders\Invoice
+     * @return Invoice
      */
     public function addTaxableAmount($amount, $id) {
         $this->data['TxnTaxDetail']['TaxLine'] = [

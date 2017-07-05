@@ -2,6 +2,7 @@
 
 namespace Rangka\Quickbooks\Services;
 
+use Rangka\Quickbooks\Builders\Builder;
 use Rangka\Quickbooks\Client;
 use Rangka\Quickbooks\Query;
 
@@ -14,7 +15,7 @@ class Service extends Client {
     protected static $resource;
 
     /**
-     * Entity name of this service. Must correspond to actual object type in Quickbooks.
+     * Entity name of this service. Must correspond to actual object type in QuickBooks.
      * 
      * @var string
      */
@@ -28,25 +29,25 @@ class Service extends Client {
     protected $responseHasRoot = true;
 
     /**
-    * Load a single item
-    * 
-    * @return 
-    */
+     * Load a single item.
+     * @param $id
+     * @return mixed
+     */
     public function load($id) {
         return parent::get($this->getResourceName() . '/' . $id)->{$this->getEntityName()};
     }
 
     /**
-    * Create a single item
-    * 
-    * @param array $data Item information
-    * @return 
-    */
+     * Create a single item
+     *
+     * @param array $data Item information
+     * @return string
+     */
     public function create($data) {
         $response = parent::post($this->getResourceName(), $data);
 
         // Response has no root, send it back immediately.
-        if (!static::$responseHasRoot) {
+        if (!$this->responseHasRoot) {
             return $response;
         }
 
@@ -54,16 +55,16 @@ class Service extends Client {
     }
 
     /**
-    * Update an entity.
-    *
-    * @param array $data Item information.
-    * @return void
-    */
+     * Update an entity.
+     *
+     * @param array $data Item information.
+     * @return string
+     */
     public function update($data) {
         $response = parent::post($this->getResourceName() . '?operation=update', $data);
 
         // Response has no root, send it back immediately.
-        if (!static::$responseHasRoot) {
+        if (!$this->responseHasRoot) {
             return $response;
         }
 
@@ -74,7 +75,6 @@ class Service extends Client {
     * Delete an entity.
     *
     * @param array $data Item information.
-    * @return void
     */
     public function delete($data) {
         return parent::post($this->getResourceName() . '?operation=delete', [
@@ -84,11 +84,9 @@ class Service extends Client {
     }
 
     /**
-    * Query quickbooks. Use Query to construct the query itself.
-    *
-    * @param \Rangka\Quickbooks\Query   $query      Query object
-    * @return object
-    */
+     * Query QuickBooks. Use Query to construct the query itself.
+     * @return object
+     */
     public function query() {
         return (new Query($this))->entity($this->getEntityName());
     }
@@ -105,7 +103,7 @@ class Service extends Client {
     /**
     * Get builder instance to construct entity data.
     *
-    * @return \Rangka\Quickbooks\Builders\Builder
+    * @return Builder
     */
     public function getBuilder() {
         $class = '\Rangka\Quickbooks\Builders\\' . $this->getClassName();

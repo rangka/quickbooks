@@ -6,7 +6,9 @@ class Payment extends Item {
     /**
      * Set an ID and Type of this Payment Item.
      *
-     * @return \Rangka\Quickbooks\Builders\Items\Payment
+     * @param $type
+     * @param $id
+     * @return Payment
      */
     protected function setId($type, $id) {
         $this->data['LinkedTxn'][] = [
@@ -19,8 +21,9 @@ class Payment extends Item {
 
     /**
      * Set Expense ID for this Payment Item
-     * 
-     * @return \Rangka\Quickbooks\Builders\Items\Payment
+     *
+     * @param $id
+     * @return Payment
      */
     public function setExpenseId($id) {
         return $this->setId('Expense', $id);
@@ -28,8 +31,9 @@ class Payment extends Item {
 
     /**
      * Set Check ID for this Payment Item
-     * 
-     * @return \Rangka\Quickbooks\Builders\Items\Payment
+     *
+     * @param $id
+     * @return Payment
      */
     public function setCheckId($id) {
         return $this->setId('Check', $id);
@@ -37,8 +41,9 @@ class Payment extends Item {
 
     /**
      * Set CreditCardCredit ID for this Payment Item
-     * 
-     * @return \Rangka\Quickbooks\Builders\Items\Payment
+     *
+     * @param $id
+     * @return Payment
      */
     public function setCreditCardCreditId($id) {
         return $this->setId('CreditCardCredit', $id);
@@ -46,8 +51,9 @@ class Payment extends Item {
 
     /**
      * Set JournalEntry ID for this Payment Item
-     * 
-     * @return \Rangka\Quickbooks\Builders\Items\Payment
+     *
+     * @param $id
+     * @return Payment
      */
     public function setJournalEntryId($id) {
         return $this->setId('JournalEntry', $id);
@@ -55,8 +61,9 @@ class Payment extends Item {
 
     /**
      * Set CreditMemo ID for this Payment Item
-     * 
-     * @return \Rangka\Quickbooks\Builders\Items\Payment
+     *
+     * @param $id
+     * @return Payment
      */
     public function setCreditMemoId($id) {
         return $this->setId('CreditMemo', $id);
@@ -64,8 +71,9 @@ class Payment extends Item {
 
     /**
      * Set Invoice ID for this Payment Item
-     * 
-     * @return \Rangka\Quickbooks\Builders\Items\Payment
+     *
+     * @param $id
+     * @return Payment
      */
     public function setInvoiceId($id) {
         return $this->setId('Invoice', $id);

@@ -5,11 +5,12 @@ namespace Rangka\Quickbooks\Builders\Traits;
 use Rangka\Quickbooks\Builders\Items\Item;
 
 trait Itemizable {
+
     /**
     * Add an item.
     *
-    * @param \Rangka\Quickbooks\Builders\Items\Item    $item  Object that extends from Items\Item.
-    * @return Current object ($this).
+    * @param Item $item  Object that extends from Items\Item.
+    * @return $this
     */
     public function addItem(Item $item) {
         $this->data['Line'][] = $item->toArray();
@@ -20,7 +21,7 @@ trait Itemizable {
     /**
      * Get Itemized Item Builder.
      * 
-     * @return \Rangka\Quickbooks\Builders\Items\Item
+     * @return Item
      */
     public function getItemBuilder() {
         $class = '\Rangka\Quickbooks\Builders\Items\\' . $this->getEntityName();

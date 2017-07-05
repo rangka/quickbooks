@@ -7,7 +7,7 @@ class Invoice extends Item {
     * Set Item's name. This is not needed if name is set through setItem()
     *
     * @param string $name Name of Item.
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function setUnitPrice($name) {
         $this->data[$this->data['DetailType']]['UnitPrice'] = $name;
@@ -19,7 +19,7 @@ class Invoice extends Item {
     * Set Item Reference (from Products & Services) associated to this Item.
     *
     * @param string $id Item ID
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function setItemRef($id) {
         $this->data[$this->data['DetailType']]['ItemRef']['value'] = $id;
@@ -31,7 +31,7 @@ class Invoice extends Item {
     * Set Item's quantity.
     *
     * @param integer $quantity Item quantity.
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function setQuantity($quantity) {
         $this->data[$this->data['DetailType']]['Qty'] =  $quantity;
@@ -42,7 +42,7 @@ class Invoice extends Item {
     /**
     * Set this Item as Sales Item.
     * 
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function asSalesItem() {
         $this->setDetailType('SalesItemLineDetail');
@@ -53,7 +53,7 @@ class Invoice extends Item {
     /**
     * Set this Item as Discount.
     * 
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function asDiscount() {
         $this->setDetailType('DiscountLineDetail');
@@ -65,7 +65,7 @@ class Invoice extends Item {
     * Set discount's percentage value.
     *
     * @param float $percent Discount percentage.
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function setPercent($percent) {
         $this->data[$this->data['DetailType']]['PercentBased'] = true;
@@ -78,7 +78,7 @@ class Invoice extends Item {
     * Set discount's value.
     *
     * @param float $value Discount value.
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function setValue($value) {
         $this->setAmount($value);
@@ -90,9 +90,9 @@ class Invoice extends Item {
     /**
     * Set this item to be taxable.
     *
-    * @param  boolean   $taxable    Set to TRUE to make it taxable or FALSE otherwise. TRUE by default.
-    * @param  id        $id         TaxCode ID.
-    * @return \Rangka\Quickbooks\Builders\InvoiceItem
+    * @param  boolean $taxable Set to TRUE to make it taxable or FALSE otherwise. TRUE by default.
+    * @param  mixed $id TaxCode ID.
+    * @return \Rangka\Quickbooks\Builders\Items\Invoice
     */
     public function isTaxable($taxable = true, $id = 'TAX') {
         if ($taxable) {
