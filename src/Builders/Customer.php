@@ -4,6 +4,18 @@ namespace ReneDeKat\Quickbooks\Builders;
 
 class Customer extends Builder
 {
+
+    /**
+     * @param $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->data['Id'] = $id;
+
+        return $this;
+    }
+
     /**
      * Set a customer's full name.
      *
@@ -18,6 +30,28 @@ class Customer extends Builder
         $this->data['GivenName'] = $givenName;
         $this->data['MiddleName'] = $middleName;
         $this->data['FamilyName'] = $familyName;
+
+        return $this;
+    }
+
+    /**
+     * @param string $displayName
+     * @return $this
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->data['DisplayName'] = $displayName;
+
+        return $this;
+    }
+
+    /**
+     * @param string $companyName
+     * @return $this
+     */
+    public function setCompanyName($companyName)
+    {
+        $this->data['CompanyName'] = $companyName;
 
         return $this;
     }

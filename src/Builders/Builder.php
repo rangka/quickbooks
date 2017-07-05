@@ -128,4 +128,15 @@ abstract class Builder implements BuilderContract
     {
         return static::$name ?: strtolower($this->getEntityName());
     }
+
+    /**
+     * @param $syncToken
+     * @return $this
+     */
+    public function setSynctoken($syncToken)
+    {
+        $this->data['SyncToken'] = $syncToken;
+
+        return $this;
+    }
 }
