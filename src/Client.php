@@ -2,6 +2,7 @@
 namespace Rangka\Quickbooks;
 
 use GuzzleHttp\Client as Guzzle;
+use Psr\Http\Message\StreamInterface;
 use Rangka\Quickbooks\Builders\Builder;
 use Rangka\Quickbooks\Builders\Traits\UseMultipart;
 
@@ -155,7 +156,7 @@ class Client {
     /**
     * Request from Quickbooks.
     * 
-    * @return 
+    * @return StreamInterface
     */
     public function request($method, $url, $body = [], $headers = []) {
         $url      = trim($url, '/');
@@ -205,10 +206,12 @@ class Client {
     }
 
     /**
-    * Make a GET request.
-    * 
-    * @return void
-    */
+     * Make a GET request.
+     *
+     * @param $url
+     * @param array $body
+     * @return string
+     */
     public function get($url, $body = []) {
         return $this->request('GET', $url, $body);
     }
@@ -216,7 +219,7 @@ class Client {
     /**
     * Make a POST request.
     * 
-    * @return void
+    * @return string
     */
     public function post($url, $body = [], $headers = []) {
         return $this->request('POST', $url, $body, $headers);

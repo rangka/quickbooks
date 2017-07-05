@@ -17,7 +17,7 @@ class Attachable extends Builder {
     /**
      * Upload attachments to Quickbooks.
      * 
-     * @return stdClass
+     * @return \stdClass
      */
     public function upload() {
         return $this->client->request('POST', 'upload', $this)->AttachableResponse;

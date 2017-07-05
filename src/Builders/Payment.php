@@ -12,7 +12,7 @@ class Payment extends Builder {
      * Alias to setTotalAmt()
      *
      * @param  float    $amount     Payment amount
-     * @return \Rangka\Quickbooks\Builders\Payment
+     * @return Payment
      */
     public function setAmount($amount) {
         return $this->setTotalAmt($amount);
@@ -22,7 +22,7 @@ class Payment extends Builder {
      * Alias to setPaymentRefNum()
      *
      * @param  string $num Reference number.
-     * @return \Rangka\Quickbooks\Builders\Payment
+     * @return Payment
      */
     public function setPaymentReference($num) {
         return $this->setPaymentRefNum($num);
@@ -32,7 +32,7 @@ class Payment extends Builder {
      * Set payment method by ID.
      *
      * @param  string $id Payment Method ID.
-     * @return \Rangka\Quickbooks\Builders\Payment
+     * @return Payment
      */
     public function setPaymentMethod($id) {
         $this->data['PaymentMethodRef']['value'] = $id;
@@ -44,7 +44,7 @@ class Payment extends Builder {
      * Set Deposit Account by ID.
      *
      * @param  string $id Account ID.
-     * @return \Rangka\Quickbooks\Builders\Payment
+     * @return Payment
      */
     public function setDepositAccount($id)
     {
@@ -57,7 +57,7 @@ class Payment extends Builder {
      * Alias to setTxnDate()
      *
      * @param  string $date Date in format YYYY-MM-DD (2016-12-30)
-     * @return \Rangka\Quickbooks\Builders\Payment
+     * @return Payment
      */
     public function setTransactionDate($date) {
         return $this->setTxnDate($date);

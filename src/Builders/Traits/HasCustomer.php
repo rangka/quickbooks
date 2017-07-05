@@ -7,7 +7,7 @@ trait HasCustomer {
     * Set Customer's ID
     *
     * @param integer $id Customer's Quickbooks ID
-    * @return \Rangka\Quickbooks\Builders\Invoice
+    * @return $this
     */
     public function setCustomer($id) {
         $this->data['CustomerRef']['value'] = $id;

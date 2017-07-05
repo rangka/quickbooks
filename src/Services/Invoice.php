@@ -2,8 +2,7 @@
 
 namespace Rangka\Quickbooks\Services;
 
-use Rangka\Quickbooks\Builders\InvoiceItem;
-use Rangka\Quickbooks\Client;
+use Psr\Http\Message\StreamInterface;
 use Rangka\Quickbooks\Services\Traits\Attachable;
 use Rangka\Quickbooks\Services\Traits\Itemizable;
 
@@ -15,7 +14,7 @@ class Invoice extends Service {
      *
      * @param string $id Invoice ID.
      * 
-     * @return \GuzzleHttp\Psr7\Stream
+     * @return StreamInterface
      */
     public function downloadPdf($id) {
         return $this->request('GET', $this->getResourceName() . '/' . $id . '/pdf', [], [
@@ -29,7 +28,7 @@ class Invoice extends Service {
      * @param string $id    Invoice ID.
      * @param string $email Email to be sent to.
      * 
-     * @return \GuzzleHttp\Psr7\Stream
+     * @return StreamInterface
      */
     public function send($id, $email = null) {
         $url = $this->getResourceName() . '/' . $id . '/send';

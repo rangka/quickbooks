@@ -2,14 +2,13 @@
 
 namespace Rangka\Quickbooks\Builders;
 
-use Rangka\Quickbooks\Builders\Address;
-
 class Customer extends Builder {
     /**
      * Set a customer's full name
      * @param string $givenName  Customer's given (or first) name.
      * @param string $middleName Customer's middle name.
      * @param string $familyName Customer's family name (or surname).
+     * @return Customer
      */
     public function setName($givenName, $middleName = null, $familyName = null) {
         $this->data['GivenName'] = $givenName;
@@ -20,10 +19,11 @@ class Customer extends Builder {
     }
 
     /**
-    * Set customer's addresss.
-    * 
-    * @return void
-    */
+     * Set customer's address.
+     *
+     * @param Address $address
+     * @return Customer
+     */
     public function setBillingAddress(Address $address) {
         $this->data['BillAddr'] = $address->toArray();
 
@@ -31,10 +31,11 @@ class Customer extends Builder {
     }
 
     /**
-    * Set primary phone number. A shorted alias to setPrimaryPhone()
-    * 
-    * @return void
-    */
+     * Set primary phone number. A shorted alias to setPrimaryPhone()
+     *
+     * @param $phone
+     * @return Customer
+     */
     public function setPhone($phone) {
         $this->setPrimaryPhone($phone);
 
@@ -42,10 +43,11 @@ class Customer extends Builder {
     }
 
     /**
-    * Set primary phone number.
-    * 
-    * @return Rangka\Quickbooks\Builders\Customer
-    */
+     * Set primary phone number.
+     *
+     * @param $phone
+     * @return Customer
+     */
     public function setPrimaryPhone($phone) {
         $this->data['PrimaryPhone']['FreeFormNumber'] = $phone;
 
@@ -53,10 +55,11 @@ class Customer extends Builder {
     }
 
     /**
-    * Set mobile phone numner.
-    * 
-    * @return Rangka\Quickbooks\Builders\Customer
-    */
+     * Set mobile phone number.
+     *
+     * @param $phone
+     * @return Customer
+     */
     public function setMobilePhone($phone) {
         $this->data['Mobile']['FreeFormNumber'] = $phone;
 
@@ -64,10 +67,11 @@ class Customer extends Builder {
     }
 
     /**
-    * Set fax phone numner.
-    * 
-    * @return Rangka\Quickbooks\Builders\Customer
-    */
+     * Set fax phone number.
+     *
+     * @param $phone
+     * @return Customer
+     */
     public function setFaxPhone($phone) {
         $this->data['Fax']['FreeFormNumber'] = $phone;
 
@@ -75,10 +79,11 @@ class Customer extends Builder {
     }
 
     /**
-    * Set customer's email address.
-    * 
-    * @return Rangka\Quickbooks\Builders\Customer
-    */
+     * Set customer's email address.
+     *
+     * @param $email
+     * @return Customer
+     */
     public function setEmail($email) {
         $this->data['PrimaryEmailAddr']['Address'] = $email;
 

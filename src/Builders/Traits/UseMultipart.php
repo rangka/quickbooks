@@ -30,11 +30,11 @@ trait UseMultipart {
 
     /**
      * Add a part.
-     * 
-     * @param string $name     Name of this field.
+     *
+     * @param string $name Name of this field.
      * @param string $filePath Path to file.
-     * @param string $fileName File name. Optional.
-     * 
+     * @param string|null $fileType
+     * @param string|null $fileName File name. Optional.
      * @return void
      */
     public function addFilePart($name, $filePath, $fileType = null, $fileName = null) {

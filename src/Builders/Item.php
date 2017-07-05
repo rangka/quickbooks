@@ -11,7 +11,7 @@ class Item extends Builder {
     * be set as false.
     *
     * @param  string $type Item's type. Either `Inventory`, `NonInventory` or `Service`.
-    * @return Rangka\Quickbooks\Builders\Item
+    * @return Item
     */
     public function setType($type) {
         parent::setType($type);
@@ -27,7 +27,7 @@ class Item extends Builder {
     * @param string $type   Type of Account. Either 'Asset', 'Income' or 'Expense'.
     * @param int    $id     ID of Account Ref.
     * @param string $name   Name of Account Ref.
-    * @return void
+    * @return Item
     */
     public function setAccountRef($type, $id, $name = '') {
         $this->data[$type . 'AccountRef'] = [
@@ -43,7 +43,7 @@ class Item extends Builder {
     *
     * @param int    $id     ID of Account Ref.
     * @param string $name   Name of Account Ref.
-    * @return Rangka\Quickbooks\Builders\Item
+    * @return Item
     */
     public function setIncomeAccountRef($id, $name = '') {
         $this->setAccountRef('Income', $id, $name);
@@ -56,7 +56,7 @@ class Item extends Builder {
     *
     * @param int    $id     ID of Account Ref.
     * @param string $name   Name of Account Ref.
-    * @return Rangka\Quickbooks\Builders\Item
+    * @return Item
     */
     public function setExpenseAccountRef($id, $name = '') {
         $this->setAccountRef('Expense', $id, $name);
@@ -69,7 +69,7 @@ class Item extends Builder {
     *
     * @param int    $id     ID of Account Ref.
     * @param string $name   Name of Account Ref.
-    * @return Rangka\Quickbooks\Builders\Item
+    * @return Item
     */
     public function setAssetAccountRef($id, $name = '') {
         $this->setAccountRef('Asset', $id, $name);
@@ -82,7 +82,7 @@ class Item extends Builder {
     * Alias for `setQtyOnHand`.
     *
     * @param integer $amount Amount of Item
-    * @return Rangka\Quickbooks\Builders\Item
+    * @return Item
     */
     public function setQuantity($amount) {
         $this->data['QtyOnHand'] = $amount;
