@@ -2,8 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-use Rangka\Quickbooks\Client;
-
 class QBClass extends Service {
     /**
      * Resource endpoint of this service.

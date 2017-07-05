@@ -2,8 +2,6 @@
 
 namespace Rangka\Quickbooks\Services;
 
-use Rangka\Quickbooks\Client;
-
 class TaxService extends Service {
     /**
      * Resource endpoint of this service.
@@ -17,5 +15,5 @@ class TaxService extends Service {
      *
      * @var boolean
      */
-    protected static $responseHasRoot = false;
+    protected $responseHasRoot = false;
 }

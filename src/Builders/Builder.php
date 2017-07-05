@@ -30,8 +30,8 @@ abstract class Builder implements BuilderContract {
     * Set's a value directly to root of array.
     * @param  string $name      Method name that was called.
     * @param  array  $arguments Arguments that was sent in with the call.
-    * @return void
-    */
+    * @return Builder
+     */
     public function __call($name, $arguments) {
         if (substr($name, 0, 3) == 'set') {
             $prop = substr($name, 3);
@@ -80,7 +80,7 @@ abstract class Builder implements BuilderContract {
     /**
     * Return data in JSON format.
     * 
-    * @return void
+    * @return string
     */
     public function toJson() {
         return json_encode($this->toArray());
@@ -89,7 +89,7 @@ abstract class Builder implements BuilderContract {
     /**
     * Format data in array.
     * 
-    * @return void
+    * @return array
     */
     public function toArray() {
         return $this->data;

@@ -41,24 +41,24 @@ class Connect extends Client {
     protected $callback_url;
 
     /**
-    * Constructor
-    * @return void
-    */
+     * Connect constructor.
+     * @param array $options
+     */
     public function __construct($options = []) {
-        parent::__construct($options);
+        parent::__construct();
 
         if (isset($options['callback_url']))
             $this->callback_url = $options['callback_url'];
     }
 
     /**
-    * Get token from QuickBooks.
-    * 
-    * @return array
-    */
+     * Get token from QuickBooks.
+     * @return array
+     * @throws \Exception
+     */
     public function requestAccess() {
         if(self::$oauth_token)
-            throw new \Exception('Quickbooks has been connected. Please disconnect before proceeding.');
+            throw new \Exception('QuickBooks has been connected. Please disconnect before proceeding.');
         
         $res = $this->request('GET', self::URL_REQUEST_TOKEN, [
             'oauth_callback' => $this->callback_url
@@ -75,10 +75,10 @@ class Connect extends Client {
     }
 
     /**
-    * Reconnect to Quickbooks to get a fresh token.
-    * 
-    * @return array
-    */
+     * Reconnect to QuickBooks to get a fresh token.
+     * @return array
+     * @throws \Exception
+     */
     public function reconnect() {
         $signed = $this->sign('GET', self::URL_RECONNECT, [
             'oauth_token' => self::$oauth_token
@@ -106,10 +106,11 @@ class Connect extends Client {
     }
 
     /**
-    * Connect to Quickbooks and save OAuth token for future usage.
-    * 
-    * @return array
-    */
+     * Connect to QuickBooks and save OAuth token for future usage.
+     *
+     * @param $params
+     * @return array
+     */
     public function connect($params) {
         $response = $this->request('GET', self::URL_ACCESS_TOKEN, [
             'oauth_token'    => $params['oauth_token'], 
@@ -129,10 +130,13 @@ class Connect extends Client {
     }
 
     /**
-    * Request from Quickbooks.
-    * 
-    * @return array
-    */
+     * Request from QuickBooks.
+     * @param $method
+     * @param $url
+     * @param array $params
+     * @param array $headers
+     * @return mixed|\Psr\Http\Message\ResponseInterface
+     */
     public function request($method, $url, $params = [], $headers = []) {
         $signed = $this->sign('GET', $url, $params);
 
