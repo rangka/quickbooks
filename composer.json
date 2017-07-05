@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Rangka\\Quickbooks\\": "src/"
+            "ReneDeKat\\Quickbooks\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rangka\\Quickbooks\\Test\\": "tests/"
+            "ReneDeKat\\Quickbooks\\Test\\": "tests/"
         }
     },
     "extra": {
