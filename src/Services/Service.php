@@ -25,7 +25,7 @@ class Service extends Client {
      *
      * @var boolean
      */
-    protected static $responseHasRoot = true;
+    protected $responseHasRoot = true;
 
     /**
     * Load a single item
