@@ -46,7 +46,7 @@ abstract class Builder implements BuilderContract {
                 return $this->data[$prop];
         }
 
-        throw new \Exception("Calling undefined method in " . get_called_class());
+        throw new \Exception("Calling undefined method in " . get_called_class() . '::' . $name);
     }
 
     /**
