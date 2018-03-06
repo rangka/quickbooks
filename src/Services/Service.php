@@ -6,6 +6,7 @@ use Rangka\Quickbooks\Client;
 use Rangka\Quickbooks\Query;
 
 class Service extends Client {
+
     /**
      * Resource endpoint of this service.
      * 
@@ -28,22 +29,24 @@ class Service extends Client {
     protected static $responseHasRoot = true;
 
     /**
-    * Load a single item
-    * 
-    * @return 
-    */
+     * Load a single item
+     * 
+     * @return 
+     */
     public function load($id) {
         return parent::get($this->getResourceName() . '/' . $id)->{$this->getEntityName()};
     }
 
     /**
-    * Create a single item
-    * 
-    * @param array $data Item information
-    * @return 
-    */
-    public function create($data) {
-        $response = parent::post($this->getResourceName(), $data);
+     * Create a single item
+     * 
+     * @param array $data Item information
+     * @param int $minorVersion
+     * @return 
+     */
+    public function create($data, $minorVersion = null) {
+        $query = ($minorVersion) ? '?minorversion=' . $minorVersion : '';
+        $response = parent::post($this->getResourceName() . $query, $data);
 
         // Response has no root, send it back immediately.
         if (!static::$responseHasRoot) {
@@ -54,13 +57,16 @@ class Service extends Client {
     }
 
     /**
-    * Update an entity.
-    *
-    * @param array $data Item information.
-    * @return void
-    */
-    public function update($data) {
-        $response = parent::post($this->getResourceName() . '?operation=update', $data);
+     * Update an entity.
+     *
+     * @param array $data Item information.
+     * @param int $minorVersion
+
+     * @return void
+     */
+    public function update($data, $minorVersion = null) {
+        $query = ($minorVersion) ? '&minorversion=' . $minorVersion : '';
+        $response = parent::post($this->getResourceName() . '?operation=update' . $query, $data);
 
         // Response has no root, send it back immediately.
         if (!static::$responseHasRoot) {
@@ -69,44 +75,44 @@ class Service extends Client {
 
         return $response->{$this->getEntityName()};
     }
-    
+
     /**
-    * Delete an entity.
-    *
-    * @param array $data Item information.
-    * @return void
-    */
+     * Delete an entity.
+     *
+     * @param array $data Item information.
+     * @return void
+     */
     public function delete($data) {
         return parent::post($this->getResourceName() . '?operation=delete', [
-            'Id'        => $data,
-            'SyncToken' => 0,
-        ])->{$this->getEntityName()};
+                    'Id' => $data,
+                    'SyncToken' => 0,
+                ])->{$this->getEntityName()};
     }
 
     /**
-    * Query quickbooks. Use Query to construct the query itself.
-    *
-    * @param \Rangka\Quickbooks\Query   $query      Query object
-    * @return object
-    */
+     * Query quickbooks. Use Query to construct the query itself.
+     *
+     * @param \Rangka\Quickbooks\Query   $query      Query object
+     * @return object
+     */
     public function query() {
         return (new Query($this))->entity($this->getEntityName());
     }
 
     /**
-    * Get all items of this Entity.
-    * 
-    * @return object
-    */
+     * Get all items of this Entity.
+     * 
+     * @return object
+     */
     public function all() {
         return $this->query()->get();
     }
 
     /**
-    * Get builder instance to construct entity data.
-    *
-    * @return \Rangka\Quickbooks\Builders\Builder
-    */
+     * Get builder instance to construct entity data.
+     *
+     * @return \Rangka\Quickbooks\Builders\Builder
+     */
     public function getBuilder() {
         $class = '\Rangka\Quickbooks\Builders\\' . $this->getClassName();
         return new $class($this);
@@ -121,7 +127,6 @@ class Service extends Client {
         if (static::$entity) {
             return static::$entity;
         }
-
         return $this->getClassName();
     }
 
@@ -130,10 +135,9 @@ class Service extends Client {
      * 
      * @return string
      */
-    public function getClassName()
-    {
+    public function getClassName() {
         $fullClass = get_called_class();
-        $exploded  = explode('\\', $fullClass);
+        $exploded = explode('\\', $fullClass);
 
         return end($exploded);
     }
@@ -146,4 +150,5 @@ class Service extends Client {
     public function getResourceName() {
         return static::$resource ?: strtolower($this->getEntityName());
     }
+
 }
