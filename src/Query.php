@@ -45,6 +45,13 @@ class Query {
     protected $orderBy;
 
     /**
+     * Minor version.
+     *
+     * @var int
+     */
+    protected $minorVersion;
+
+    /**
      * Consstruct a new query.
      *
      * @return void
@@ -167,9 +174,9 @@ class Query {
     /**
      * Set a an IN constraint.
      *
-     * @param    string    $property       Property name.
-     * @param    array     $array          Array of IDs. 
-     * @return   void
+     * @param  string    $property       Property name.
+     * @param  array     $array          Array of IDs. 
+     * @return \Rangka\Quickbooks\Query
      */
     public function in($property, $ids)
     {
@@ -181,8 +188,8 @@ class Query {
     /**
      * Set a LIKE constraint.
      *
-     * @param string $property Property name.
-     * @param string $constraint Constraint value.
+     * @param  string $property Property name.
+     * @param  string $constraint Constraint value.
      * @return \Rangka\Quickbooks\Query
      */
     public function like($property, $constraint) {
@@ -194,7 +201,7 @@ class Query {
      *
      * @param  integer $start Start position.
      * @param  integer $length Number of entities to fetch.
-     * @return void
+     * @return \Rangka\Quickbooks\Query
      */
     public function paginate($start, $length)
     {
@@ -211,7 +218,7 @@ class Query {
      *
      * @param  string $property Property to be used for sorting.
      * @param  string $order    Ordering. Either "ASC" or "DESC". Optional.
-     * @return void
+     * @return \Rangka\Quickbooks\Query
      */
     public function orderBy($property, $order = null)
     {
@@ -224,12 +231,25 @@ class Query {
     }
 
     /**
+     * Set minor version to be used.
+     * 
+     * @param  int $minorVersion Mintor version to be used.
+     * @return \Rangka\Quickbooks\Query
+     */
+    public function useMinorVersion($minorVersion)
+    {
+        $this->minorVersion = $minorVersion;
+
+        return $this;
+    }
+
+    /**
      * Get data from Quickbooks
      * 
      * @return array
      */
     public function get() {
-        $data = $this->client->get('query?query=' . rawurlencode($this));
+        $data = $this->client->get('query?query=' . rawurlencode($this) . ($this->minorVersion ? '&minorversion=' . $this->minorVersion : ''));
 
         // If Query syntax is incorrect, it will return a 200 with Fault.
         // Lets make that an Exception instead.
