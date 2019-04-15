@@ -98,6 +98,16 @@ class Connect extends Client {
     }
 
     /**
+     * Check if current OAuth Token has expired or not.
+     * 
+     * @return boolean
+     */
+    public function hasExpired()
+    {
+        return time() > self::$oauth['expires_at'];
+    }
+
+    /**
     * Reconnect to Quickbooks to get a fresh token.
     * 
     * @return array
@@ -105,6 +115,10 @@ class Connect extends Client {
     public function refreshToken() {
         if(!self::$oauth) {
             throw new \Exception('Quickbooks has not been connected. Please connect or properly configure it before proceeding.');
+        }
+
+        if ($this->hasExpired()) {
+            throw new \Exception('OAuth Token has expired. Please refresh before proceeding.');
         }
 
         $res = (new Guzzle([
