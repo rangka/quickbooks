@@ -21,39 +21,32 @@ class Client {
     const URL_API_BASE_LIVE = 'https://quickbooks.api.intuit.com/v3/company';
 
     /**
-     * Hold's QuickBooks' Consumer Key.
+     * Hold's QuickBooks' Client ID.
      *
      * @var string
      */
-    protected static $consumer_key;
+    protected static $client_id;
 
     /**
-     * Holds QuickBook's Consume Secret. 
+     * Holds QuickBook's Client Secret. 
      *
      * @var string
      */
-    protected static $consumer_secret;
+    protected static $client_secret;
 
     /**
-     * Hold's QuickBooks' OAuth Token.
+     * Hold's QuickBooks' OAuth.
      *
      * @var string
      */
-    protected static $oauth_token;
+    protected static $oauth;
 
     /**
-     * Holds QuickBook's OAuth Token Secret. 
+     * Holds QuickBook's Realm ID. 
      *
      * @var string
      */
-    protected static $oauth_token_secret;
-
-    /**
-     * Holds QuickBook's Company ID (previously known as realm). 
-     *
-     * @var string
-     */
-    protected static $company_id;
+    protected static $realm_id;
 
     /**
      * Flag for sandbox mode. Defaults to FALSE.
@@ -73,16 +66,15 @@ class Client {
     /**
     * Configure Client's tokens.
     *
-    * @param    array   $params     Array of `oauth_token`, `oauth_token_secret` and `company_id`
+    * @param  array  $params  Array of `oauth_token`, `oauth_token_secret` and `realm_id`.
     * @return void
     */
     public static function configure($options) {
-        self::$consumer_key       = isset($options['consumer_key']) ? $options['consumer_key'] : getenv('QUICKBOOKS_CONSUMER_KEY');
-        self::$consumer_secret    = isset($options['consumer_secret']) ? $options['consumer_secret'] : getenv('QUICKBOOKS_CONSUMER_SECRET');
-        self::$sandbox            = (isset($options['sandbox']) ? $options['sandbox'] : getenv('QUICKBOOKS_ENV')) == 'sandbox';
-        self::$oauth_token        = isset($options['oauth_token']) ? $options['oauth_token'] : '';
-        self::$oauth_token_secret = isset($options['oauth_token_secret']) ? $options['oauth_token_secret'] : '';
-        self::$company_id         = isset($options['company_id']) ? $options['company_id'] : '';
+        self::$client_id          = isset($options['client_id']) ? $options['client_id'] : getenv('QUICKBOOKS_CLIENT_ID');
+        self::$client_secret      = isset($options['client_secret']) ? $options['client_secret'] : getenv('QUICKBOOKS_CLIENT_SECRET');
+        self::$sandbox            = isset($options['sandbox']) && $options['sandbox'] === true;
+        self::$oauth              = isset($options['oauth']) ? $options['oauth'] : '';
+        self::$realm_id           = isset($options['realm_id']) ? $options['realm_id'] : '';
     }
 
     /**

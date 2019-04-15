@@ -6,32 +6,18 @@ use GuzzleHttp\Client AS Guzzle;
 
 class Connect extends Client {
     /**
-     * URL to request token.
+     * URL to request for authorization code.
      *
-     * * @var string
+     * @var string
      */
-    const URL_REQUEST_TOKEN = 'https://oauth.intuit.com/oauth/v1/get_request_token';
+    const URL_AUTH_CODE_REQUEST = 'https://appcenter.intuit.com/connect/oauth2?response_type=code&';
 
     /**
-     * URL to obtain access token
+     * URL to obtain a new OAuth Token.
      *
-     * * @var string
+     * @var string
      */
-    const URL_ACCESS_TOKEN = 'https://oauth.intuit.com/oauth/v1/get_access_token';
-
-    /**
-     * URL to connect/authorize OAuth
-     *
-     * * @var string
-     */
-    const URL_CONNECT = 'https://appcenter.intuit.com/Connect/Begin';
-
-    /**
-     * URL to reconnect OAuth (refresh token)
-     *
-     * * @var string
-     */
-    const URL_RECONNECT = 'https://appcenter.intuit.com/api/v1/connection/reconnect';
+    const URL_TOKEN_REQUEST = 'https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer';
 
     /**
      * Holds callback URL for redirection when user has authorized.
@@ -52,26 +38,63 @@ class Connect extends Client {
     }
 
     /**
+     * Get URL to be used to get authorization code from user.
+     * 
+     * @return String
+     */
+    public function getAuthorizationURL($options = [])
+    {
+        return self::URL_AUTH_CODE_REQUEST . implode('&', [
+            'client_id='    . self::$client_id,
+            'scope='        . $this->getScope($options['scope']),
+            'redirect_uri=' . $options['redirect_uri'],
+            'state='        . $options['state'],
+        ]); 
+    }
+
+    /**
+     * Get scope to be used in request.
+     *
+     * @param String  $scope  Comma-separated scope.
+     * 
+     * @return String
+     */
+    public function getScope(string $scope)
+    {
+        return 'com.intuit.quickbooks.' . implode(' ', array_map('trim', explode(',', $scope)));
+    }
+
+    /**
     * Get token from QuickBooks.
     * 
     * @return array
     */
-    public function requestAccess() {
-        if(self::$oauth_token)
+    public function requestToken($data) {
+        if(self::$oauth) {
             throw new \Exception('Quickbooks has been connected. Please disconnect before proceeding.');
-        
-        $res = $this->request('GET', self::URL_REQUEST_TOKEN, [
-            'oauth_callback' => $this->callback_url
-        ]);
+        }
+
+        $res = (new Guzzle([
+            'headers' => [
+                'Accept'        => 'application/json',
+                'Authorization' => 'Basic ' . base64_encode(self::$client_id . ':' . self::$client_secret),
+            ],
+            'form_params' => [
+                'code'         => $data['code'],
+                'redirect_uri' => 'http://local.test:8000/rangka/quickbooks-dev/redirect.php',
+                'grant_type'   => 'authorization_code',
+            ],
+        ]))->request('POST', self::URL_TOKEN_REQUEST);
 
         // retrieve the value
-        $params = [];
-        parse_str(((string) $res->getBody()), $params);
+        $params = json_decode((string) $res->getBody(), true);
 
-        return [
-            'oauth_token_secret' => $params['oauth_token_secret'],
-            'url'                => self::URL_CONNECT . '?' . (string) $res->getBody()
-        ];
+        $params['expires_at'] = time() + $params['expires_in'];
+        $params['x_refresh_token_expires_at'] = time() + $params['x_refresh_token_expires_in'];
+
+        // TODO: Handle error
+
+        return $params;
     }
 
     /**
@@ -79,64 +102,31 @@ class Connect extends Client {
     * 
     * @return array
     */
-    public function reconnect() {
-        $signed = $this->sign('GET', self::URL_RECONNECT, [
-            'oauth_token' => self::$oauth_token
-        ]);
+    public function refreshToken() {
+        if(!self::$oauth) {
+            throw new \Exception('Quickbooks has not been connected. Please connect or properly configure it before proceeding.');
+        }
 
-        $response = (new Guzzle([
+        $res = (new Guzzle([
             'headers' => [
                 'Accept'        => 'application/json',
-                'Content-Type'  => 'application/json',
-                'Authorization' => $signed['header']
-            ]
-        ]))->request('GET', self::URL_RECONNECT);
+                'Authorization' => 'Basic ' . base64_encode(self::$client_id . ':' . self::$client_secret),
+            ],
+            'form_params' => [
+                'grant_type'   => 'refresh_token',
+                'refresh_token'   => self::$oauth['refresh_token'],
+            ],
+        ]))->request('POST', self::URL_TOKEN_REQUEST);
 
         // retrieve the value
-        $response = json_decode((string) $response->getBody(), true);
+        $params = json_decode((string) $res->getBody(), true);
 
-        if ($response['ErrorMessage'])
-            throw new \Exception($response['ErrorMessage'], $response['ErrorCode']);
+        $params['expires_at'] = time() + $params['expires_in'];
+        $params['x_refresh_token_expires_at'] = time() + $params['x_refresh_token_expires_in'];
 
-        return [
-            'oauth_token_secret' => $response['OAuthTokenSecret'],
-            'oauth_token'        => $response['OAuthToken'],
-            'oauth_expiry'       => time() + (86400 * 180)
-        ];
-    }
+        // TODO: Handle error
 
-    /**
-    * Connect to Quickbooks and save OAuth token for future usage.
-    * 
-    * @return array
-    */
-    public function connect($params) {
-        $response = $this->request('GET', self::URL_ACCESS_TOKEN, [
-            'oauth_token'    => $params['oauth_token'], 
-            'oauth_verifier' => $params['oauth_verifier']
-        ]);
-
-        // retrieve the value
-        $values = [];
-        parse_str(((string) $response->getBody()), $values);
-
-        return [
-            'oauth_token_secret' => $values['oauth_token_secret'],
-            'oauth_token'        => $values['oauth_token'],
-            'oauth_expiry'       => time() + (86400 * 180),
-            'company_id'         => $params['realmId']
-        ];
-    }
-
-    /**
-    * Request from Quickbooks.
-    * 
-    * @return array
-    */
-    public function request($method, $url, $params = [], $headers = []) {
-        $signed = $this->sign('GET', $url, $params);
-
-        return $response = (new Guzzle())->request($method, $signed['url']);
+        return $params;
     }
 }
 
