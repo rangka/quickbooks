@@ -47,8 +47,8 @@ class Connect extends Client {
         return self::URL_AUTH_CODE_REQUEST . implode('&', [
             'client_id='    . self::$client_id,
             'scope='        . $this->getScope($options['scope']),
-            'redirect_uri=' . $options['redirect_uri'],
-            'state='        . $options['state'],
+            'redirect_uri=' . ($options['redirect_uri'] ?? self::$redirect_uri),
+            'state='        . ($options['state'] ?? 'auth'),
         ]); 
     }
 
@@ -69,8 +69,8 @@ class Connect extends Client {
     * 
     * @return array
     */
-    public function requestToken($data) {
-        if(self::$oauth) {
+    public function requestToken($options = []) {
+        if($this->isConnected()) {
             throw new \Exception('Quickbooks has been connected. Please disconnect before proceeding.');
         }
 
@@ -80,8 +80,8 @@ class Connect extends Client {
                 'Authorization' => 'Basic ' . base64_encode(self::$client_id . ':' . self::$client_secret),
             ],
             'form_params' => [
-                'code'         => $data['code'],
-                'redirect_uri' => 'http://local.test:8000/rangka/quickbooks-dev/redirect.php',
+                'code'         => $_GET['code'],
+                'redirect_uri' => $options['redirect_uri'] ?? self::$redirect_uri,
                 'grant_type'   => 'authorization_code',
             ],
         ]))->request('POST', self::URL_TOKEN_REQUEST);
@@ -98,13 +98,23 @@ class Connect extends Client {
     }
 
     /**
+     * Checks if Quickbooks has been connected.
+     * 
+     * @return boolean
+     */
+    public function isConnected()
+    {
+        return self::$oauth && isset(self::$oauth['access_token']) && self::$oauth['access_token'];
+    }
+
+    /**
      * Check if current OAuth Token has expired or not.
      * 
      * @return boolean
      */
     public function hasExpired()
     {
-        return time() > self::$oauth['expires_at'];
+        return !$this->isConnected() || time() > self::$oauth['expires_at'];
     }
 
     /**
@@ -113,12 +123,8 @@ class Connect extends Client {
     * @return array
     */
     public function refreshToken() {
-        if(!self::$oauth) {
+        if(!$this->isConnected()) {
             throw new \Exception('Quickbooks has not been connected. Please connect or properly configure it before proceeding.');
-        }
-
-        if ($this->hasExpired()) {
-            throw new \Exception('OAuth Token has expired. Please refresh before proceeding.');
         }
 
         $res = (new Guzzle([

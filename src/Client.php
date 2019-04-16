@@ -35,6 +35,20 @@ class Client {
     protected static $client_secret;
 
     /**
+     * Webhook's Verifier Token.
+     *
+     * @var string
+     */
+    protected static $webhook_token;
+
+    /**
+     * Default redirect URL.
+     *
+     * @var string
+     */
+    protected static $redirect_uri;
+
+    /**
      * Hold's QuickBooks' OAuth.
      *
      * @var string
@@ -72,6 +86,8 @@ class Client {
     public static function configure($options) {
         self::$client_id          = isset($options['client_id']) ? $options['client_id'] : getenv('QUICKBOOKS_CLIENT_ID');
         self::$client_secret      = isset($options['client_secret']) ? $options['client_secret'] : getenv('QUICKBOOKS_CLIENT_SECRET');
+        self::$webhook_token      = isset($options['webhook_token']) ? $options['webhook_token'] : getenv('QUICKBOOKS_WEBHOOK_TOKEN');
+        self::$redirect_uri       = isset($options['redirect_uri']) ? $options['redirect_uri'] : getenv('QUICKBOOKS_REDIRECT_URI');
         self::$sandbox            = isset($options['sandbox']) && $options['sandbox'] === true;
         self::$oauth              = isset($options['oauth']) ? $options['oauth'] : '';
         self::$realm_id           = isset($options['realm_id']) ? $options['realm_id'] : '';
