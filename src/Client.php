@@ -21,39 +21,46 @@ class Client {
     const URL_API_BASE_LIVE = 'https://quickbooks.api.intuit.com/v3/company';
 
     /**
-     * Hold's QuickBooks' Consumer Key.
+     * Hold's QuickBooks' Client ID.
      *
      * @var string
      */
-    protected static $consumer_key;
+    protected static $client_id;
 
     /**
-     * Holds QuickBook's Consume Secret. 
+     * Holds QuickBook's Client Secret. 
      *
      * @var string
      */
-    protected static $consumer_secret;
+    protected static $client_secret;
 
     /**
-     * Hold's QuickBooks' OAuth Token.
+     * Webhook's Verifier Token.
      *
      * @var string
      */
-    protected static $oauth_token;
+    protected static $webhook_token;
 
     /**
-     * Holds QuickBook's OAuth Token Secret. 
+     * Default redirect URL.
      *
      * @var string
      */
-    protected static $oauth_token_secret;
+    protected static $redirect_uri;
 
     /**
-     * Holds QuickBook's Company ID (previously known as realm). 
+     * Hold's QuickBooks' OAuth.
      *
      * @var string
      */
-    protected static $company_id;
+    protected static $oauth;
+
+    /**
+     * Holds QuickBook's Realm ID. 
+     *
+     * @var string
+     */
+    protected static $realm_id;
 
     /**
      * Flag for sandbox mode. Defaults to FALSE.
@@ -73,83 +80,17 @@ class Client {
     /**
     * Configure Client's tokens.
     *
-    * @param    array   $params     Array of `oauth_token`, `oauth_token_secret` and `company_id`
+    * @param  array  $params  Array of `oauth_token`, `oauth_token_secret` and `realm_id`.
     * @return void
     */
     public static function configure($options) {
-        self::$consumer_key       = isset($options['consumer_key']) ? $options['consumer_key'] : getenv('QUICKBOOKS_CONSUMER_KEY');
-        self::$consumer_secret    = isset($options['consumer_secret']) ? $options['consumer_secret'] : getenv('QUICKBOOKS_CONSUMER_SECRET');
-        self::$sandbox            = (isset($options['sandbox']) ? $options['sandbox'] : getenv('QUICKBOOKS_ENV')) == 'sandbox';
-        self::$oauth_token        = isset($options['oauth_token']) ? $options['oauth_token'] : '';
-        self::$oauth_token_secret = isset($options['oauth_token_secret']) ? $options['oauth_token_secret'] : '';
-        self::$company_id         = isset($options['company_id']) ? $options['company_id'] : '';
-    }
-
-    /**
-    * Sign a request
-    * 
-    * @param string     $url        Endpoint
-    * @param array      $params     Array of parameters to be signed.
-    * @param string     $secret     Token secret to be appended to consumer secret for signing.
-    * @return array                 string - base string to be signed, 
-    *                               url    - signed URL (null if QuickBooks has been connected)
-    *                               header - Authorization header (null if QuickBooks has not been connected)
-    */
-    protected function sign($method, $url, $params = []) {
-        // parse URL
-        $parsedURL = parse_url($url);
-
-        // reconstruct it with only what we need
-        $url = $parsedURL['scheme'] . '://' . $parsedURL['host'] . $parsedURL['path'];
-
-        // set default parameters and sort it by key
-        $params = array_merge([
-            'oauth_consumer_key'     => self::$consumer_key,
-            'oauth_nonce'            => substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10),
-            'oauth_signature_method' => 'HMAC-SHA1',
-            'oauth_timestamp'        => time(),
-            'oauth_version'          => '1.0'
-        ], $params);
-
-        // set query parameters if exists
-        if (isset($parsedURL['query'])) {
-            $parsedQuery = [];
-            parse_str($parsedURL['query'], $parsedQuery);
-            $params = array_merge($parsedQuery, $params);
-        }
-
-        // sort parameters by key
-        ksort($params);
-
-        // generate string to be signed
-        $string = $method . '&' . rawurlencode($url) . '&' . rawurlencode(http_build_query($params, null, '&', PHP_QUERY_RFC3986));
-
-        // calculate signature
-        $params['oauth_signature'] = base64_encode(hash_hmac('sha1', $string, rawurlencode(self::$consumer_secret) . '&' . rawurlencode(self::$oauth_token_secret), true));
-
-        // generate auth header if oauth_token is present but without verifier (actual API request and not authorization process)
-        $header = $signed_url = '';
-        if (isset($params['oauth_token']) && !isset($params['oauth_verifier'])) {
-            $header = 'OAuth ' . implode(', ', [
-                'oauth_signature_method="'.$params['oauth_signature_method'].'"',
-                'oauth_signature="'.rawurlencode($params['oauth_signature']).'"',
-                'oauth_nonce="'.$params['oauth_nonce'].'"',
-                'oauth_timestamp="'.$params['oauth_timestamp'].'"',
-                'oauth_token="'.$params['oauth_token'].'"',
-                'oauth_consumer_key="'.$params['oauth_consumer_key'].'"',
-                'oauth_version="'.$params['oauth_version'].'"'
-            ]);
-        } else {
-            // build URL for signed URL request
-            $signed_url = $url . '?' . http_build_query($params);
-        }
-
-        // return all results
-        return [
-            'string' => $string,
-            'url'    => $signed_url,
-            'header' => $header
-        ];
+        self::$client_id          = isset($options['client_id']) ? $options['client_id'] : getenv('QUICKBOOKS_CLIENT_ID');
+        self::$client_secret      = isset($options['client_secret']) ? $options['client_secret'] : getenv('QUICKBOOKS_CLIENT_SECRET');
+        self::$webhook_token      = isset($options['webhook_token']) ? $options['webhook_token'] : getenv('QUICKBOOKS_WEBHOOK_TOKEN');
+        self::$redirect_uri       = isset($options['redirect_uri']) ? $options['redirect_uri'] : getenv('QUICKBOOKS_REDIRECT_URI');
+        self::$sandbox            = isset($options['sandbox']) && $options['sandbox'] === true;
+        self::$oauth              = isset($options['oauth']) ? $options['oauth'] : '';
+        self::$realm_id           = isset($options['realm_id']) ? $options['realm_id'] : '';
     }
 
     /**
@@ -159,11 +100,8 @@ class Client {
     */
     public function request($method, $url, $body = [], $headers = []) {
         $url      = trim($url, '/');
-        $base_uri = $this->getBaseURL() . '/' . self::$company_id . '/';
+        $base_uri = $this->getBaseURL() . '/' . self::$realm_id . '/';
         $full_url = $base_uri . $url;
-        $signed   = $this->sign($method, $full_url, [
-            'oauth_token' => self::$oauth_token
-        ]);
 
         $headers  = array_merge([
             'Accept'       => 'application/json',
@@ -175,7 +113,7 @@ class Client {
             'headers'  => [
                 'Accept'        => $headers['Accept'],
                 'Content-Type'  => $headers['Content-Type'],
-                'Authorization' => $signed['header']
+                'Authorization' => 'Bearer ' . self::$oauth['access_token'],
             ],
         ];
 
