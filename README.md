@@ -7,7 +7,7 @@ PHP Library for connecting to QuickBooks.
 Install it using composer.
 
 ```
-composer require rangka/quickbooks dev-master
+composer require rangka/quickbooks
 ```
 
 # Configuring
