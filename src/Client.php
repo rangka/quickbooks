@@ -84,13 +84,13 @@ class Client {
     * @return void
     */
     public static function configure($options) {
-        self::$client_id          = isset($options['client_id']) ? $options['client_id'] : getenv('QUICKBOOKS_CLIENT_ID');
-        self::$client_secret      = isset($options['client_secret']) ? $options['client_secret'] : getenv('QUICKBOOKS_CLIENT_SECRET');
-        self::$webhook_token      = isset($options['webhook_token']) ? $options['webhook_token'] : getenv('QUICKBOOKS_WEBHOOK_TOKEN');
-        self::$redirect_uri       = isset($options['redirect_uri']) ? $options['redirect_uri'] : getenv('QUICKBOOKS_REDIRECT_URI');
+        self::$client_id          = $options['client_id'] ?? self::$client_id ?? getenv('QUICKBOOKS_CLIENT_ID');
+        self::$client_secret      = $options['client_secret'] ?? self::$client_secret ?? getenv('QUICKBOOKS_CLIENT_SECRET');
+        self::$webhook_token      = $options['webhook_token'] ?? self::$webhook_token ?? getenv('QUICKBOOKS_WEBHOOK_TOKEN');
+        self::$redirect_uri       = $options['redirect_uri'] ?? self::$redirect_uri ?? getenv('QUICKBOOKS_REDIRECT_URI');
         self::$sandbox            = isset($options['sandbox']) && $options['sandbox'] === true;
-        self::$oauth              = isset($options['oauth']) ? $options['oauth'] : '';
-        self::$realm_id           = isset($options['realm_id']) ? $options['realm_id'] : '';
+        self::$oauth              = $options['oauth'] ?? $options['oauth'] ?? '';
+        self::$realm_id           = $options['realm_id'] ?? self::$realm_id ?? '';
     }
 
     /**

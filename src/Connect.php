@@ -3,6 +3,7 @@
 namespace Rangka\Quickbooks;
 
 use GuzzleHttp\Client AS Guzzle;
+use Rangka\Quickbooks\Client as Quickbooks;
 
 class Connect extends Client {
     /**
@@ -143,6 +144,11 @@ class Connect extends Client {
 
         $params['expires_at'] = time() + $params['expires_in'];
         $params['x_refresh_token_expires_at'] = time() + $params['x_refresh_token_expires_in'];
+
+        // Save new values
+        Quickbooks::configure([
+            'oauth' => $params,
+        ]);
 
         // TODO: Handle error
 
