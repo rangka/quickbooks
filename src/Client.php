@@ -88,8 +88,8 @@ class Client {
         self::$client_secret      = $options['client_secret'] ?? self::$client_secret ?? getenv('QUICKBOOKS_CLIENT_SECRET');
         self::$webhook_token      = $options['webhook_token'] ?? self::$webhook_token ?? getenv('QUICKBOOKS_WEBHOOK_TOKEN');
         self::$redirect_uri       = $options['redirect_uri'] ?? self::$redirect_uri ?? getenv('QUICKBOOKS_REDIRECT_URI');
-        self::$sandbox            = isset($options['sandbox']) && $options['sandbox'] === true;
-        self::$oauth              = $options['oauth'] ?? $options['oauth'] ?? '';
+        self::$sandbox            = isset($options['sandbox']) && $options['sandbox'] === true || self::$sandbox;
+        self::$oauth              = $options['oauth'] ?? self::$oauth ?? '';
         self::$realm_id           = $options['realm_id'] ?? self::$realm_id ?? '';
     }
 
